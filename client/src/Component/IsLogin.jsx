@@ -1,11 +1,11 @@
-import React,{ useEffect } from 'react'
+import { useEffect } from 'react'
 import axios from 'axios'
 
 function IsLogin() {
     //Check if logged in
     useEffect(() => {
         axios.get('http://localhost:5500/user/role',{withCredentials: true}).then((response) => {
-            console.log(response.data)
+            // console.log(response.data)
             if (response.data === 'SystemAdmin') {
                 window.location.href = '/system_admin'
             }
@@ -19,7 +19,9 @@ function IsLogin() {
                 window.location.href = '/user'
             }
         })
-        .catch((error) => {})
+        .catch((error) => {
+            window.location.href = '/login'
+        })
     }, [])
 }
 

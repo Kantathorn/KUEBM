@@ -36,7 +36,18 @@ function Login() {
     const submitHandler = async function (e) {
         e.preventDefault();
         axios.post('http://localhost:5500/auth/login',state, {withCredentials: true}).then((response) => {
-            window.location.href = '/home'
+            if (response.data.role === 'SystemAdmin') {
+                window.location.href = '/system_admin'
+            }
+            else if (response.data.role === 'ClubManager') {
+                window.location.href = '/club_manager'
+            }
+            else if (response.data.role === 'EquipmentManager') {
+                window.location.href = '/equipment_manager'
+            }
+            else if (response.data.role === 'User') {
+                window.location.href = '/user'
+            }
         })
         .catch((error) => {
             Swal.fire({

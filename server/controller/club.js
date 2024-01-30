@@ -56,9 +56,10 @@ exports.createClub = (req,res) => {
     });
 }
 
+//Get List of Clubs
 exports.getClubList = (req,res) => {
     Clubs.find().populate('type').populate('created_by').populate('updated_by').then(result => {
-        return res.json(result)
+        return res.status(200).json(result)
     }).catch(err => {
         return res.status(404).json(err)
     })

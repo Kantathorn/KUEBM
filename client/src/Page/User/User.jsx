@@ -1,9 +1,46 @@
-import React from 'react'
+import React,{ useEffect,useState } from 'react'
+import axios from 'axios'
+import logo from '../../Image/logo-choose-club.svg'
+
+import ChooseClubForm from '../../Component/ChooseClubForm';
 
 function User() {
-    return (
-        <div>User</div>
-    )
+    const [user, setUser] = useState({});
+    //Check Login status and get user data
+    useEffect(() => {
+        axios.get('http://localhost:5500/user/info',{withCredentials: true}).then((response) => {
+            setUser(response.data)
+        })
+        .catch((error) => {
+            window.location.href = '/login'
+        })
+    },[])
+
+    if (user.club == null) {
+        return (
+            <div className='container d-flex justify-content-center align-items-center min-vh-100'>
+                <div className='row border rounded-5 p-3 bg-white shadow box-area'>
+                    <div className='rounded-4 d-flex justify-content-center align-items-center flex-column' style={{background: '#ffffff'}}>
+                        <div className='club-logo mb-1 mt-3'>
+                            <img src={logo} alt='logo' className='img-fluid' style={{width: 200 + 'px'}}/>
+                        </div>
+                        <div className='header-text mb-4 text-wrap text-center'>
+                            <h2>Select your Club</h2>
+                            <p>กรุณาเลือกชมรมที่คุณสังกัด หรือ สร้างชมรมใหม่</p>
+                        </div>
+                        <ChooseClubForm userData={user}/>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    else {
+        return (
+            <div>User</div>
+        )
+    }
+
 }
 
 export default User

@@ -32,7 +32,7 @@ router.post('/register', (req,res,next) => {
 })
 
 router.post('/login', passport.authenticate('local'),(req,res) => {
-    return res.json({'Message': 'Login-success'})
+    return res.json(req.user)
 })
 
 router.post('/logout',(req,res) => {
