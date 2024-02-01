@@ -58,11 +58,44 @@ function ChooseClubForm(props) {
   }
 
   return (
-    <div>
+    <div className='row-md-6 mb-2 mt-3'>
       <form onSubmit={handleSubmit}>
-        <label className='input-group fs-6'>องค์กรกิจกรรมนิสิต</label>
+        <label className='input-group fs-6'>ชมรมกิจกรรมนิสิต</label>
         <div className='input-group mb-1'>
-          
+          <select
+            className='form-select form-select-lg bg-light fs-6'
+            aria-label='Default select example'
+            value={club}
+            onChange={inputValue('club')}
+          >
+            <option value='' disabled>
+              เลือกชมรม
+            </option>
+            {clubList.map((clubList) => (
+              <option key={clubList._id} value={clubList._id}>
+                {clubList.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        {errors.register_pass && (<p className="error-alert mb-1">{errors.register_pass}</p>)}
+        <label className='input-group fs-6'>รหัสเข้าชมรม</label>
+        <div className='input-group mb-1'>
+          <input
+            type='text'
+            className='form-control form-control-lg bg-light fs-6'
+            placeholder='กรุณาระบุชื่อองค์กรแบบเต็ม เช่น ชมรมxxxx'
+            value={register_pass}
+            onChange={inputValue('register_pass')}
+          />
+        </div>
+        {errors.register_pass && (<p className="error-alert mb-1">{errors.register_pass}</p>)}
+        <div className='input-group mb-3 mt-3'>
+          <input
+            type='submit'
+            value='ยืนยัน'
+            className='btn btn-lg btn-success w-100 fs-5'
+          />
         </div>
       </form>
     </div>

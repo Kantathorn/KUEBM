@@ -19,7 +19,7 @@ function User() {
     if (user.club == null) {
         return (
             <div className='container d-flex justify-content-center align-items-center min-vh-100'>
-                <div className='row border rounded-5 p-3 bg-white shadow box-area'>
+                <div className='border rounded-5 p-3 bg-white shadow box-area'>
                     <div className='rounded-4 d-flex justify-content-center align-items-center flex-column' style={{background: '#ffffff'}}>
                         <div className='club-logo mb-1 mt-3'>
                             <img src={logo} alt='logo' className='img-fluid' style={{width: 200 + 'px'}}/>
@@ -28,7 +28,15 @@ function User() {
                             <h2>Select your Club</h2>
                             <p>กรุณาเลือกชมรมที่คุณสังกัด หรือ สร้างชมรมใหม่</p>
                         </div>
-                        <ChooseClubForm userData={user}/>
+                    </div>
+                    <ChooseClubForm userData={user}/>
+                    <div className='text fs-6'>
+                        <p className='text-center'>
+                            ต้องการสร้างชมรมใหม่?{' '}
+                            <a href='/create_club' className='anchor-label'>
+                                สร้างชมรมใหม่ที่นี่
+                            </a>
+                        </p>
                     </div>
                 </div>
             </div>
