@@ -4,25 +4,28 @@ import Swal from 'sweetalert2'
 
 function ChooseClubForm(props) {
   const [clubList, setClubList] = useState([]);
-  const [selectedClub, setSelectedClub] = useState(null);
-  //Check Login status and get user data
+  
   useEffect(() => {
     axios.get('http://localhost:5500/club/list', { withCredentials: true })
-        .then((response) => {
-            setClubList(response.data);  // Update this line to set the organizations correctly
-        })
-        .catch((error) => {
-            console.log('Error to Query Organization:', error);
-        });
+    .then((response) => {
+      setClubList(response.data);
+    })
+    .catch((error) => {
+      console.log('Error to Query Organization:', error);
+    });
   }, []);
   
   const [state,setState] = useState({
-    user: props.userData._id,
+    user: '',
     club: '',
     register_pass: ''
   })
-
   const { club,register_pass } = state
+
+  useEffect(() => {
+    setState(prevState => ({ ...prevState, user: props.userData._id }));
+  }, [props.userData]);  
+
   const inputValue = (name) => (event) => {
     setState({ ...state, [name]: event.target.value });
   };
@@ -34,26 +37,31 @@ function ChooseClubForm(props) {
       formErrors.organization = "โปรดเลือกชมรมของคุณ";
     }
     if (!register_pass.trim()) {
-      formErrors.register_pass = "โปรดใส่รหัสที่ได้รับจากผู้ดูแลองค์กร"
+      formErrors.register_pass = "โปรดใส่รหัสที่ได้รับจากผู้ดูแลชมรม"
     }
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
   }
 
-  const handleClubChange = (selectedOption) => {
-    setSelectedClub(selectedOption);
-    setState({
-      ...state,
-      club: selectedOption ? selectedOption.value : '',
-    });
-  };
+  //Submit Change Club data
   const handleSubmit = async (e) => {
     e.preventDefault();
     const isFormValid = validateForm();
     if (isFormValid) {
-        console.log("User: "+state.user)
-        console.log("Club id: "+state.club)
-        console.log("Passcode: "+state.register_pass)
+      Swal.fire({
+        title: "ยืนยันที่จะเข้าร่วมชมรมหรือไม่",
+        showCancelButton: true,
+        confirmButtonText: "ยืนยัน",
+        confirmButtonColor: "#198754",
+        cancelButtonText: "ยกเลิก",
+        cancelButtonColor: "#DC3545"
+      }).then((result) => {
+        if (result.isConfirmed){
+          console.log("User: "+state.user)
+          console.log("Club id: "+state.club)
+          console.log("Passcode: "+state.register_pass)
+        }
+      })
     }
   }
 
