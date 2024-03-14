@@ -1,5 +1,6 @@
 const ClubTypes = require('../models/ClubTypes')
 const Clubs = require('../models/Clubs')
+const Users = require('../models/Users')
 
 //Create New Club type
 exports.createClubType = (req,res) => {
@@ -60,6 +61,25 @@ exports.createClub = (req,res) => {
 exports.getClubList = (req,res) => {
     Clubs.find().populate('type').populate('created_by').populate('updated_by').then(result => {
         return res.status(200).json(result)
+    }).catch(err => {
+        return res.status(404).json(err)
+    })
+}
+
+//Choose Clubs
+exports.chooseClub = (req,res) => {
+    const { user,club,register_pass } = req.body
+    Clubs.findOne({ _id:club,register_pass:register_pass }).then(result => {
+        if (result == null){
+            return res.status(404).json({ "Message" : "Wrong Passcode"})
+        }
+        else {
+            Users.findOneAndUpdate({ _id:user },{ club:club }).then(result => {
+                return res.status(200).json({ "Message" : "Change Clubs Successful"})
+            }).catch(err2 => {
+                return res.status(404).json(err2)
+            })
+        }
     }).catch(err => {
         return res.status(404).json(err)
     })
