@@ -50,6 +50,7 @@ function ChooseClubForm(props) {
     if (isFormValid) {
       Swal.fire({
         title: "ยืนยันที่จะเข้าร่วมชมรมหรือไม่",
+        icon: "question",
         showCancelButton: true,
         confirmButtonText: "ยืนยัน",
         confirmButtonColor: "#198754",
@@ -57,9 +58,23 @@ function ChooseClubForm(props) {
         cancelButtonColor: "#DC3545"
       }).then((result) => {
         if (result.isConfirmed){
-          console.log("User: "+state.user)
-          console.log("Club id: "+state.club)
-          console.log("Passcode: "+state.register_pass)
+          //Confirm
+          axios.patch('http://localhost:5500/club/change', state, { withCredentials: true }).then((response => {
+            Swal.fire({
+              title: "เข้าร่วมชมรมสำเร็จ",
+              text: "ระบบได้ทำการเพิ่มคุณเข้าชมรมเรียบร้อยแล้ว",
+              icon: "success"
+            }).then(function() {
+                window.location.reload()
+            })
+          }))
+          .catch((error) => {
+            Swal.fire({
+              title: "ไม่สามารถเข้าร่วมชมรมได้",
+              text: "เนื่องจากรหัสเข้าชมรมไม่ถูกต้อง",
+              icon: "error"
+            })
+          })
         }
       })
     }
