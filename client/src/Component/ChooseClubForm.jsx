@@ -107,7 +107,7 @@ function ChooseClubForm(props) {
           <input
             type='text'
             className='form-control form-control-lg bg-light fs-6'
-            placeholder='กรุณาระบุชื่อองค์กรแบบเต็ม เช่น ชมรมxxxx'
+            placeholder='รหัสในการเข้าร่วมชมรม'
             value={register_pass}
             onChange={inputValue('register_pass')}
           />
