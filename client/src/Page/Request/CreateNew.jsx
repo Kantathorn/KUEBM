@@ -2,13 +2,13 @@ import React from 'react'
 
 import Navbar from '../../Component/Navbar'
 
-function ClubManager() {
+function CreateNew() {
   return (
     <>
         <Navbar/>
-        <div>ClubManager</div>
+        <div>CreateNew</div>
     </>
   )
 }
 
-export default ClubManager
+export default CreateNew

@@ -6,6 +6,9 @@ import User from './Page/User/User';
 import IsLogin from './Component/IsLogin';
 import CreateClub from './Page/User/CreateClub';
 import ClubManager from './Page/ClubManager/ClubManager';
+import CreateNew from './Page/Request/CreateNew';
+import AddNewEquipment from './Page/Equipment/AddNewEquipment';
+import Equipment from './Page/Equipment/Equipment';
 
 function App() {
   return (
@@ -17,6 +20,9 @@ function App() {
         <Route exact path='/user' element={<User/>} />
         <Route path='/create_club' element={<CreateClub/>} />
         <Route path='/club_manager' element={<ClubManager/>} />
+        <Route path='/request/new' element={<CreateNew/>} />
+        <Route path='/equipment/' element={<Equipment/>} />
+        <Route path='/equipment/new' element={<AddNewEquipment/>} />
       </Routes>
     </BrowserRouter>
   );
