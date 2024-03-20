@@ -13,3 +13,13 @@ exports.getUserData = (req,res) => {
         return res.status(404).json(err)
     })
 }
+
+//Update Role
+exports.updateUserRole = (req,res) => {
+    const { user,role } = req.body
+    Users.findOneAndUpdate({_id : user},{'role' : role}).then(result => {
+        return res.status(200).json({ "Message" : "Change Role Successful"})
+    }).catch(err => {
+        return res.status(404).json(err)
+    })
+}

@@ -50,7 +50,11 @@ exports.createClub = (req,res) => {
         updated_by: req.user._id
     })
     new_club.save().then(success => {
-        return res.status(200).json({ 'Message': 'Success'});
+        Users.findOneAndUpdate({'_id' : req.user._id },{'club':success._id}).then(result => {
+            return res.status(200).json({ "Message" : "Create Clubs Successful"})
+        }).catch(err2 => {
+            return res.status(404).json(err2)
+        })
     })
     .catch(err => {
         return res.status(400).json(err);
