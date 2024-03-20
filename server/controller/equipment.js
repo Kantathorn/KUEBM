@@ -48,3 +48,13 @@ exports.getEquipmentByClub = (req,res) => {
         return res.status(404).json(err)
     })
 }
+
+//Change Equipment Statys
+exports.changeStatus = (req,res) => {
+    const { equipment,status } = req.body
+    Equipments.findOneAndUpdate({ _id:equipment },{ status:status }).then(result => {
+        return res.status(200).json({ "Message" : "Change Equipment Status Successful"})
+    }).catch(err => {
+        return res.status(404).json(err)
+    })
+}
