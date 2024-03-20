@@ -1,13 +1,12 @@
 import React,{ useEffect,useState } from 'react'
 import axios from 'axios'
 import logo from '../../Image/logo-choose-club.svg'
-
 import ChooseClubForm from '../../Component/ChooseClubForm';
 import Navbar from '../../Component/Navbar';
 
 function User() {
     const [user, setUser] = useState({});
-    //Check Login status and get user data
+    //Check User Permission and get user data
     useEffect(() => {
         axios.get('http://localhost:5500/user/info',{withCredentials: true}).then((response) => {
             setUser(response.data)

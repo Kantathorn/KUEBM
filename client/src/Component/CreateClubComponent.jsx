@@ -4,6 +4,17 @@ import "./Style/RegisterComponent.css";
 import Swal from 'sweetalert2'
 
 function CreateClubComponent() {
+  //Get User Data
+  const [user, setUser] = useState({});
+  //Check User Permission and get user data
+  useEffect(() => {
+      axios.get('http://localhost:5500/user/info',{withCredentials: true}).then((response) => {
+          setUser(response.data)
+      })
+      .catch((error) => {
+          window.location.href = '/login'
+      })
+  },[])
   // Get Club type
   const [typeList, setTypeList] = useState([]);
   useEffect(() => {
@@ -75,6 +86,29 @@ function CreateClubComponent() {
         confirmButtonColor: "#198754",
         cancelButtonText: "ยกเลิก",
         cancelButtonColor: "#DC3545"
+      }).then((result) => {
+        if (result.isConfirmed){
+          //create club
+          axios.post("http://localhost:5500/club/create", state, { withCredentials: true }).then((response => {
+            axios.patch("http://localhost:5500/user/change/role", { user:user._id,role:"ClubManager"}, { withCredentials: true }).then((response => {
+              Swal.fire({
+                title: "สร้างชมรมสำเร็จ",
+                text: "ระบบกำลังนำคุณเข้าสู่หน้าจัดการชมรม",
+                icon: "success"
+              }).then(function() {
+                  window.location.href = '/club_manager'
+              })
+            }))
+            .catch((error) => {
+              Swal.fire({
+                title: "เกิดข้อผิดพลาด ไม่สามารถสร้างชมรมได้",
+                text: error,
+                icon: "error"
+              })
+            })
+          }))
+          .catch((error) => { console.log(error) })
+        }
       })
     }
     else {

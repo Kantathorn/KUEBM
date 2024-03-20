@@ -21,8 +21,7 @@ function Login() {
             else if (response.data === 'User') {
                 window.location.href = '/user'
             }
-        })
-        .catch((error) => {})
+        }).catch((error) => {})
     }, [])
 
     const [state,setState] = useState({

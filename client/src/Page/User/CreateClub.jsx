@@ -5,6 +5,27 @@ import CreateClubComponent from '../../Component/CreateClubComponent'
 import logo from '../../Image/logo-choose-club.svg'
 
 function CreateClub() {
+  // Check Role and Is Login
+  useEffect(() => {
+    axios.get('http://localhost:5500/user/info',{withCredentials: true}).then((response) => {
+      if (response.data.role === 'SystemAdmin') {
+          window.location.href = '/system_admin'
+      }
+      else if (response.data.role === 'ClubManager') {
+          window.location.href = '/club_manager'
+      }
+      else if (response.data.role === 'EquipmentManager') {
+          window.location.href = '/equipment_manager'
+      }
+      else if (response.data.role === 'User') {
+          if (response.data.club !== null){
+            window.location.href = '/user'
+          }
+      }
+    }).catch((error) => {
+      window.location.href = '/login'
+    })
+  },[])
   return (
     <>
       <Navbar/>
