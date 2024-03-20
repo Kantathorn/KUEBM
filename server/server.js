@@ -52,9 +52,11 @@ passport.deserializeUser(Users.deserializeUser());
 const AuthRouter = require('./route/auth')
 const ClubRouter = require('./route/club')
 const UserRouter = require('./route/user')
+const EquipmentRouter = require('./route/equipment')
 //Route
 app.use('/auth', AuthRouter)
 app.use('/club',ClubRouter)
 app.use('/user',UserRouter)
+app.use('/equipment',EquipmentRouter)
 
 app.listen(port,()=>console.log(`Start server in port ${port}`))

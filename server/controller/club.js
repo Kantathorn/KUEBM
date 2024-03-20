@@ -88,3 +88,13 @@ exports.chooseClub = (req,res) => {
         return res.status(404).json(err)
     })
 }
+
+//Get Clubs Member
+exports.getClubMember = (req,res) => {
+    const { club } = req.body
+    Users.find({club:club}).populate('club').then(result => {
+        return res.json(result)
+    }).catch(err => {
+        return res.status(404).json(err)
+    })
+}

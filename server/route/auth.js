@@ -35,10 +35,10 @@ router.post('/login', passport.authenticate('local'),(req,res) => {
     return res.json(req.user)
 })
 
-router.post('/logout',(req,res) => {
+router.get('/logout',(req,res) => {
     req.logout((err) => {
 		if (err) {
-			return res.status(400).json(err)
+			return res.status(500).json(err)
 		}
 		return res.json({'message': 'successfully logged-out'})
 	})
