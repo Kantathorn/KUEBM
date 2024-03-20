@@ -26,6 +26,9 @@ function Navbar(props) {
               <li className="nav-item">
                 <a className="nav-link active" aria-current="page" href="/equipment">จัดการพัสดุ</a>
               </li>
+              <li className='nav-item'>
+                <a className='nav-link active' aria-current="page" href="/club/management">จัดการชมรม</a>
+              </li>
             </ul>
             <div className="d-flex">
               <button className="btn btn-outline-danger" onClickCapture={submitHandler}>Logout</button>

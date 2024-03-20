@@ -9,6 +9,7 @@ import ClubManager from './Page/ClubManager/ClubManager';
 import CreateNew from './Page/Request/CreateNew';
 import AddNewEquipment from './Page/Equipment/AddNewEquipment';
 import Equipment from './Page/Equipment/Equipment';
+import Club from './Page/ClubManager/Club';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path='/request/new' element={<CreateNew/>} />
         <Route path='/equipment/' element={<Equipment/>} />
         <Route path='/equipment/new' element={<AddNewEquipment/>} />
+        <Route path='/club/management' element={<Club/>}/>
       </Routes>
     </BrowserRouter>
   );

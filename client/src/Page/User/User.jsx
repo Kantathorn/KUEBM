@@ -32,9 +32,6 @@ function User() {
             else if (response.data === 'EquipmentManager') {
                 window.location.href = '/equipment_manager'
             }
-            else if (response.data === 'User') {
-                window.location.href = '/user'
-            }
         }).catch((error) => {})
     }, [])
 
