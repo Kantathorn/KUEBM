@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import Navbar from '../../Component/Navbar'
 import AddNewEquipmentComponent from '../../Component/AddNewEquipmentComponent'
+import logo from "../../Image/logo-add-equipment.svg"
 
 function AddNewEquipment() {
     const [user, setUser] = useState({});
@@ -22,7 +23,7 @@ function AddNewEquipment() {
             <div className='border rounded-5 p-3 bg-white shadow box-area'>
                 <div className='rounded-4 d-flex justify-content-center align-items-center flex-column' style={{background: '#ffffff'}}>
                     <div className='club-logo mb-1 mt-3'>
-                        {/* <img src={logo} alt='logo' className='img-fluid' style={{width: 200 + 'px'}}/> */}
+                        <img src={logo} alt='logo' className='img-fluid' style={{width: 200 + 'px'}}/>
                         {/* logo */}
                     </div>
                     <div className='header-text mb-4 text-wrap text-center'>

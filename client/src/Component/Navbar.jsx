@@ -21,13 +21,13 @@ function Navbar(props) {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/user">Home</a>
+                <a className="nav-link active" aria-current="page" href="/user" style={{color: "#ffffff"}}>Home</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/equipment">จัดการพัสดุ</a>
+                <a className="nav-link active" aria-current="page" href="/equipment" style={{color: "#ffffff"}}>จัดการพัสดุ</a>
               </li>
               <li className='nav-item'>
-                <a className='nav-link active' aria-current="page" href="/club/management">จัดการชมรม</a>
+                <a className='nav-link active' aria-current="page" href="/club/management" style={{color: "#ffffff"}}>จัดการชมรม</a>
               </li>
             </ul>
             <div className="d-flex">
