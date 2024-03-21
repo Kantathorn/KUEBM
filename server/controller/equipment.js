@@ -58,7 +58,16 @@ exports.getEquipmentByClub = (req,res) => {
     })
 }
 
-//Change Equipment Statys
+// Get All Available Equipment
+exports.getAllEquipment = (req,res) => {
+    Equipments.find({status:"Available"}).populate('owner').populate('category').populate('created_by').populate('updated_by').then(result => {
+        return res.status(200).json(result)
+    }).catch(err => {
+        return res.status(404).json(err)
+    })
+}
+
+//Change Equipment Status
 exports.changeStatus = (req,res) => {
     const { equipment,status } = req.body
     Equipments.findOneAndUpdate({ _id:equipment },{ status:status }).then(result => {
