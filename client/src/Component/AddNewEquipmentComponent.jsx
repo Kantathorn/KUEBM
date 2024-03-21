@@ -67,12 +67,16 @@ function AddNewEquipmentComponent() {
     return Object.keys(formError).length === 0;
   }
 
+  useEffect(() => {
+    // Update owner in form state when user data is available
+    setState((prevState) => ({
+        ...prevState,
+        owner: user.club ? user.club._id : '', // Set owner if user data is available
+    }));
+  }, [user]);
+
   const submitHandler = async function (e) {
     e.preventDefault();
-    setState({
-      ...state,
-      owner: user.club._id
-    });
     const isFormValid = validateForm();
     if (isFormValid){
       Swal.fire({
@@ -86,6 +90,7 @@ function AddNewEquipmentComponent() {
         cancelButtonColor: "#DC3545",
       }).then((result) => {
         if (result.isConfirmed){
+          // console.log(state)
           axios.post("http://localhost:5500/equipment/new",state,{ withCredentials: true }).then((response) => {
             Swal.fire({
               title: "เพิ่มพัสดุสำเร็จ",

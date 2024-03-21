@@ -1,4 +1,4 @@
-import React,{ useState,useEffect } from 'react'
+import React,{ useEffect } from 'react'
 import axios from 'axios';
 
 import Navbar from '../../Component/Navbar'
@@ -6,12 +6,8 @@ import AddNewEquipmentComponent from '../../Component/AddNewEquipmentComponent'
 import logo from "../../Image/logo-add-equipment.svg"
 
 function AddNewEquipment() {
-    const [user, setUser] = useState({});
-    //Check User Permission and get user data
     useEffect(() => {
-        axios.get('http://localhost:5500/user/info',{withCredentials: true}).then((response) => {
-            setUser(response.data)
-        })
+        axios.get('http://localhost:5500/user/info',{withCredentials: true}).then((response) => {})
         .catch((error) => {
             window.location.href = '/login'
         })
@@ -24,14 +20,13 @@ function AddNewEquipment() {
                 <div className='rounded-4 d-flex justify-content-center align-items-center flex-column' style={{background: '#ffffff'}}>
                     <div className='club-logo mb-1 mt-3'>
                         <img src={logo} alt='logo' className='img-fluid' style={{width: 200 + 'px'}}/>
-                        {/* logo */}
                     </div>
                     <div className='header-text mb-4 text-wrap text-center'>
                         <h2>Add New Equipment</h2>
                         <p>เพิ่มรายการพัสดุอุปกรณ์ใหม่</p>
                     </div>
                 </div>
-                <AddNewEquipmentComponent userData={user}/>
+                <AddNewEquipmentComponent/>
                 <div className='text fs-6'>
                     <p className='text-center'>
                         <a href='/equipment' className='anchor-label'>

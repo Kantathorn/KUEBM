@@ -43,7 +43,39 @@ function Equipment() {
 
     useEffect(() => {
         if (selectedItem) {
-            // Handle edit click
+            // console.log(selectedItem._id);
+            Swal.fire({
+                title: "เปลี่ยนสถานะของพัสดุ",
+                text: selectedItem.name,
+                icon: "question",
+                input: "select",
+                inputOptions: {
+                    "Available" : "Available",
+                    "Inactive" : "Inactive"
+                },
+                inputPlaceholder: "เลือกสถานะ",
+                showCancelButton: true,
+                confirmButtonText: "ยืนยัน",
+                confirmButtonColor: "#198754",
+                cancelButtonText: "ยกเลิก",
+                cancelButtonColor: "#DC3545",
+                inputValidator: (value) => {
+                    // console.log(value)
+                    // console.log(selectedItem._id)
+                    if (value !== selectedItem.status){
+                        axios.patch("http://localhost:5500/equipment/change/status", { equipment:selectedItem._id, status:value }, { withCredentials: true }).then((response) => {
+                            Swal.fire({
+                                title: "เปลี่ยนสถานะสำเร็จ",
+                                text: selectedItem.name + " ถูกเปลี่ยนเป็น " + value,
+                                icon: "success"
+                              }).then(function() {
+                                  window.location.reload()
+                              })
+                        }).catch({})
+                    }
+                }
+            })
+            setSelectedItem('') // Clear Select Item
         }
     }, [selectedItem]);
 
@@ -135,6 +167,11 @@ function Equipment() {
                                             {item.status !== "Available" && item.status !== "Inactive" ? 
                                                 <button className='btn btn-secondary btn-sm ms-3'>
                                                     รายละเอียดผู้ยืม
+                                                </button> : <></>
+                                            }
+                                            {item.status === "Available" || item.status === "Inactive" ? 
+                                                <button className='btn btn-secondary btn-sm ms-3'>
+                                                    รายละเอียด
                                                 </button> : <></>
                                             }
                                         </td>

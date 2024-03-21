@@ -10,6 +10,7 @@ import CreateNew from './Page/Request/CreateNew';
 import AddNewEquipment from './Page/Equipment/AddNewEquipment';
 import Equipment from './Page/Equipment/Equipment';
 import Club from './Page/ClubManager/Club';
+import Tracking from './Page/Request/Tracking';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path='/create_club' element={<CreateClub/>} />
         <Route path='/club_manager' element={<ClubManager/>} />
         <Route path='/request/new' element={<CreateNew/>} />
+        <Route path='/request/tracking' element={<Tracking/>} />
         <Route path='/equipment/' element={<Equipment/>} />
         <Route path='/equipment/new' element={<AddNewEquipment/>} />
         <Route path='/club/management' element={<Club/>}/>
