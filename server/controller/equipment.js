@@ -17,6 +17,15 @@ exports.newEquipmentCategory = (req,res) => {
     });
 }
 
+// Get Equipment Category
+exports.getCategory = (req,res) => {
+    EquipmentCategories.find().then(result => {
+        return res.json(result)
+    }).catch(err => {
+        return res.status(404).json(err)
+    })
+}
+
 // Add New equipment
 exports.addEquipment = (req,res) => {
     const { name,detail,category,owner,cost,fsn } = req.body
