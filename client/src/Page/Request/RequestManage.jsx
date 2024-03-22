@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import logo from '../../Image/request-manage-logo.svg';
 import Navbar from '../../Component/Navbar';
 
@@ -24,6 +25,77 @@ function RequestManage() {
         return new Date(dateString).toLocaleString('th-TH', options);
     }
 
+    const handleApproveRequest = () => {
+        if (request) {
+            Swal.fire({
+                title: 'โปรดระบุรายละเอียดเพิ่มเติม'+ '\n' +'สำหรับคำร้องหมายเลข '+request.request_number,
+                icon: 'question',
+                html: `
+                    <label for="deposite" class="input-group fs-6">ค่ามัดจำ (บาท)</label>
+                    <div className="input-group mb-1">
+                        <input id="deposite" class="swal2-input" placeholder="หากไม่มีมัดจำให้ใส่ 0">
+                    </div>
+                    <label for="collected_date" class="input-group fs-6 mt-3">ต้องเข้ามารับในวันที่</label>
+                    <div className="input-group mb-1">
+                        <input id="collected_date" class="swal2-input" placeholder="Collected Date" type="datetime-local">
+                    </div>
+                    <label for="note" class="input-group fs-6 mt-3">หมายเหตุ</label>
+                    <div className="input-group mb-1">
+                        <input id="note" class="swal2-input" placeholder="หมายเหตุอื่นๆ (ถ้ามี)" type="text">
+                    </div>
+                `,
+                focusConfirm: false,
+                showCancelButton: true,
+                confirmButtonText: "ยืนยัน",
+                confirmButtonColor: "#198754",
+                cancelButtonText: "ยกเลิก",
+                cancelButtonColor: "#DC3545",
+                preConfirm: () => {
+                    return {
+                      deposite: document.getElementById('deposite').value,
+                      collected_date: document.getElementById('collected_date').value,
+                      note: document.getElementById('note').value
+                    };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const { deposite, collected_date, note } = result.value;
+                    axios.patch("http://localhost:5500/request/approve",{
+                        request_id: request._id,
+                        deposite: deposite,
+                        note: note,
+                        collected_date: collected_date
+
+                    },{withCredentials:true}).then((response) => {
+                        Swal.fire({
+                            title: "คำขอยืมถูกอนุมัติเรียบร้อยแล้ว",
+                            text: "โปรดเตรียมพัสดุให้พร้อมส่งมอบ",
+                            icon: "success"
+                        }).then(function() {
+                            window.location.href = '/request'
+                        }).catch(error2 => {
+                            console.log(error2)
+                        })
+                    })
+                }
+            })
+        }
+    };
+
+    const handleRejectRequest = () => {
+        if (request) {
+            Swal.fire({
+                title: 'ยกเลิกคำร้อง',
+                icon: 'question',
+                html: `
+                    <strong>คำร้องหมายเลข:</strong> ${request.request_number}<br/>
+                    <strong>สถานะคำร้อง:</strong> ${request.status}<br/>
+                    <!-- Add more request details here -->
+                `,
+            });
+        }
+    }
+
     const renderRequestDetails = () => {
         if (!request) {
             return <div>Loading...</div>;
@@ -41,7 +113,7 @@ function RequestManage() {
                             <td>สถานะคำร้อง</td>
                             <td>{request.status}</td>
                         </tr>
-                        {request.status !== 'New' && request.status !== 'Cancle' ? 
+                        {request.status !== 'New' && request.status !== 'Cancel' ? 
                             <>
                                 <tr>
                                     <td>ผู้อนุมัติ</td>
@@ -72,13 +144,13 @@ function RequestManage() {
                         </tr>
                         <tr>
                             <td>วันที่ต้องการยืม</td>
-                            <td>{formatDate(request.collected_date)}</td>
+                            <td>{formatDate(request.use_date)}</td>
                         </tr>
                         <tr>
                             <td>วันที่ต้องการคืน</td>
                             <td>{formatDate(request.returned_date)}</td>
                         </tr>
-                        {request.status !== 'New' && request.status !== 'Cancle' ? 
+                        {request.status !== 'New' && request.status !== 'Cancel' ? 
                             <>
                                 <tr>
                                     <td>มัดจำ</td>
@@ -98,8 +170,8 @@ function RequestManage() {
                 </table>
                 {request.status === "New" ? 
                     <div className='d-flex justify-content-end'>
-                        <button className='btn btn-success'>อนุมัติคำร้อง</button>
-                        <button className='btn btn-danger ms-3'>ปฏิเสธคำร้อง</button>
+                        <button className='btn btn-success' onClick={handleApproveRequest}>อนุมัติคำร้อง</button>
+                        <button className='btn btn-danger ms-3' onClick={handleRejectRequest}>ปฏิเสธคำร้อง</button>
                     </div>
                 : <></>}
                 {request.status === "Approve" ? 

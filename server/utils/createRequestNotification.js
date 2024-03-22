@@ -1,5 +1,10 @@
-require("dotenv").config({path: '../.env'})
+require("dotenv").config()
 const nodemailer = require('nodemailer');
+
+const formatDate = (dateString) => {
+  const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+  return new Date(dateString).toLocaleString('th-TH', options);
+}
 
 // Create a transporter object using SMTP transport
 const transporter = nodemailer.createTransport({
@@ -24,8 +29,8 @@ const sendEmailNotification = (recipientEmail, ownerEmail,detail, number, item) 
     html: `
       <p>หมายเลขคำร้อง:   ${number}</p>
       <p>รายละเอียดคำร้อง: ${detail.description}</p>
-      <p>วันที่ยืม:          ${detail.collected_date}</p>
-      <p>วันที่คืน:          ${detail.returned_date}</p>
+      <p>วันที่ยืม:          ${formatDate(detail.use_date)}</p>
+      <p>วันที่คืน:          ${formatDate(detail.returned_date)}</p>
       <p>พัสดุที่ยืม:         ${item.name}</p>
       <p>จากชมรม:        ${item.owner.name}</p>
       <p>*อีเมลล์นี้ถูกสร้างโดยระบบอัตโนมัติ กรุณาอย่าตอบกลับอีเมลล์นี้ (Do not reply this e-mail)</p>

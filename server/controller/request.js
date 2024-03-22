@@ -4,11 +4,12 @@ const Equipments = require('../models/Equipments');
 const Requests = require('../models/Requests');
 const Counters = require('../models/Counters');
 const sendEmailNotification = require('../utils/createRequestNotification');
+const sendApproveEmailNotification = require('../utils/approveRequestNotification');
 
 // Create Request
 exports.createRequest = async (req, res) => {
     try {
-        const { request_to, description, collected_date, returned_date, item, ownerMail } = req.body;
+        const { request_to, description, use_date, returned_date, item, ownerMail } = req.body;
 
         // Get the current sequence value and increment it
         const counter = await Counters.findByIdAndUpdate(
@@ -28,7 +29,7 @@ exports.createRequest = async (req, res) => {
             request_to: request_to,
             status: "New",
             description: description,
-            collected_date: collected_date,
+            use_date: use_date,
             returned_date: returned_date,
             item: item._id
         });
@@ -78,17 +79,19 @@ exports.getRequestByUser = (req,res) => {
 
 //Approve Request
 exports.approveRequest = (req,res) => {
-    const { request_id,approver, deposite, note } = req.body
+    const { request_id, deposite, note, collected_date } = req.body
     if (note !== ""){
         Requests.findOneAndUpdate({ _id:request_id }, { 
             status: "Approve",
             approver: req.user._id,
-            approver: approver,
+            collected_date: collected_date,
             deposite: deposite,
             note: note
-        }).then(result => {
+        }).populate('requester').populate('request_to').populate('approver').then(result => {
             // return res.status(200).json(result)
+            sendApproveEmailNotification(result,collected_date)
             return res.status(200).json({ "Message" : "Request Approved"})
+            // return res.status(200).json(result)
         }).catch(err => {
             return res.status(404).json(err)
         })
@@ -96,10 +99,11 @@ exports.approveRequest = (req,res) => {
     else {
         Requests.findOneAndUpdate({ _id:request_id }, { 
             status: "Approve",
+            collected_date: collected_date,
             approver: req.user._id,
-            approver: approver,
             deposite: deposite,
-        }).then(result => {
+        }).populate('requester').populate('request_to').populate('approver').then(result => {
+            sendApproveEmailNotification(result,collected_date)
             return res.status(200).json({ "Message" : "Request Approved"})
         }).catch(err => {
             return res.status(404).json(err)
@@ -108,6 +112,16 @@ exports.approveRequest = (req,res) => {
 }
 
 //Reject Request
-exports.rejectRequest = (req,res) => {
+exports.cancelRequest = (req,res) => {
     const { request_id,note } = req.body
+    Requests.findOneAndUpdate({ _id:request_id }, {
+        status: "Cancel",
+        note: "ยกเลิกโดย " + req.user.first_name + " เนื่องจาก" + note
+    }).populate('requester').populate('request_to').populate('approver').then(result => {
+        Equipments.findOneAndUpdate({ _id:result.item },{ status:"Available" }).then(result2 => {
+            return res.status(200).json({ "Message" : "Request Canceled"})
+        }).catch(err => {
+            return res.status(404).json(err)
+        })
+    })
 }

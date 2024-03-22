@@ -51,9 +51,9 @@ function CreateNew() {
             <div className="input-group mb-1">
               <input id="description" class="swal2-input" placeholder="เช่น ใช้ในโครงการเปิดโลกกิจกรรม">
             </div>
-            <label for="collected_date" class="input-group fs-6 mt-3">วันที่ต้องการยืม</label>
+            <label for="use_date" class="input-group fs-6 mt-3">วันที่ต้องการยืม</label>
             <div className="input-group mb-1">
-              <input id="collected_date" class="swal2-input" placeholder="Collected Date" type="datetime-local">
+              <input id="use_date" class="swal2-input" placeholder="Collected Date" type="datetime-local">
             </div>
             <label for="returned_date" class="input-group fs-6 mt-3">วันที่ต้องการคืน</label>
             <div className="input-group mb-1">
@@ -69,18 +69,18 @@ function CreateNew() {
           preConfirm: () => {
             return {
               description: document.getElementById('description').value,
-              collected_date: document.getElementById('collected_date').value,
+              use_date: document.getElementById('use_date').value,
               returned_date: document.getElementById('returned_date').value
             };
           }
         }).then((result) => {
           if (result.isConfirmed) {
-            const { description, collected_date, returned_date } = result.value;
+            const { description, use_date, returned_date } = result.value;
             // Post request detail to the backend
             axios.post("http://localhost:5500/request/create",{
               request_to: selectedItem.owner._id,
               description : description,
-              collected_date : collected_date,
+              use_date : use_date,
               returned_date : returned_date,
               item: selectedItem,
               ownerMail: selectedItem.owner.email

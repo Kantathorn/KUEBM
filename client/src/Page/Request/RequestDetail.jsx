@@ -39,7 +39,7 @@ function RequestDetail() {
                         <td>สถานะคำร้อง</td>
                         <td>{request.status}</td>
                     </tr>
-                    {request.status !== 'New' && request.status !== 'Cancle' ? 
+                    {request.status !== 'New' && request.status !== 'Cancel' ? 
                         <>
                             <tr>
                                 <td>ผู้อนุมัติ</td>
@@ -65,14 +65,18 @@ function RequestDetail() {
                     </tr>
                     <tr>
                         <td>วันที่ต้องการยืม</td>
-                        <td>{formatDate(request.collected_date)}</td>
+                        <td>{formatDate(request.use_date)}</td>
                     </tr>
                     <tr>
                         <td>วันที่ต้องการคืน</td>
                         <td>{formatDate(request.returned_date)}</td>
                     </tr>
-                    {request.status !== 'New' && request.status !== 'Cancle' ? 
+                    {request.status !== 'New' && request.status !== 'Cancel' ? 
                         <>
+                            <tr>
+                                <td>วันที่ต้องเข้ารับพัสดุ</td>
+                                <td>{formatDate(request.collected_date)}</td>
+                            </tr>
                             <tr>
                                 <td>มัดจำ</td>
                                 <td>{request.deposite} บาท</td>
