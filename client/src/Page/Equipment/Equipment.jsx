@@ -6,7 +6,7 @@ import Navbar from '../../Component/Navbar';
 
 function Equipment() {
     const [user, setUser] = useState(null);
-    const [equipments, setEquipments] = useState([]);
+    const [equipments, setEquipments] = useState([]); 
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedItem, setSelectedItem] = useState(null);
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });

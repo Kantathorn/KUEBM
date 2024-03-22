@@ -104,7 +104,7 @@ function CreateNew() {
             })).catch(error => {
               Swal.fire({
                 title: "ไม่สามารถยืมพัสดุชิ้นนี้ได้",
-                text: "เนื่องจากมียืมพัสดุไปก่อนหน้านี้แล้ว กรุณาลองใหม่อีกครั้ง",
+                text: "เนื่องจากข้อมูลไม่ครบถ้วน กรุณาลองใหม่อีกครั้ง",
                 icon: "error"
               }).then(function() {
                 window.location.reload()

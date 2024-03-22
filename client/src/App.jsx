@@ -13,6 +13,7 @@ import Club from './Page/ClubManager/Club';
 import Tracking from './Page/Request/Tracking';
 import RequestDetail from './Page/Request/RequestDetail';
 import Request from './Page/Request/Request';
+import RequestManage from './Page/Request/RequestManage';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path='/equipment/new' element={<AddNewEquipment/>} />
         <Route path='/club/management' element={<Club/>}/>
         <Route path="/request/:id" element={<RequestDetail/>} />
+        <Route path="/request/manage/:id" element={<RequestManage/>} />
         <Route path="/request" element={<Request/>} />
       </Routes>
     </BrowserRouter>

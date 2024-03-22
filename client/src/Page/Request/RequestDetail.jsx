@@ -18,6 +18,11 @@ function RequestDetail() {
             })
     }, [id])
 
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+        return new Date(dateString).toLocaleString('th-TH', options);
+    }
+
     const renderRequestDetails = () => {
         if (!request) {
             return <div>Loading...</div>;
@@ -31,6 +36,18 @@ function RequestDetail() {
                         <td>{request.request_number}</td>
                     </tr>
                     <tr>
+                        <td>สถานะคำร้อง</td>
+                        <td>{request.status}</td>
+                    </tr>
+                    {request.status !== 'New' && request.status !== 'Cancle' ? 
+                        <>
+                            <tr>
+                                <td>ผู้อนุมัติ</td>
+                                <td>{request.approver ? request.approver.first_name : "-"}</td>
+                            </tr>
+                        </> : <></>
+                    }
+                    <tr>
                         <td>เจ้าของคำร้อง</td>
                         <td>{request.requester.first_name} {request.requester.last_name} (สมาชิก {request.requester_club.name})</td>
                     </tr>
@@ -43,8 +60,32 @@ function RequestDetail() {
                         <td>{request.request_to.name}</td>
                     </tr>
                     <tr>
-                        <td>สถานะคำร้อง</td>
-                        <td>{request.status}</td>
+                        <td>เหตุผล</td>
+                        <td>{request.description}</td>
+                    </tr>
+                    <tr>
+                        <td>วันที่ต้องการยืม</td>
+                        <td>{formatDate(request.collected_date)}</td>
+                    </tr>
+                    <tr>
+                        <td>วันที่ต้องการคืน</td>
+                        <td>{formatDate(request.returned_date)}</td>
+                    </tr>
+                    {request.status !== 'New' && request.status !== 'Cancle' ? 
+                        <>
+                            <tr>
+                                <td>มัดจำ</td>
+                                <td>{request.deposite} บาท</td>
+                            </tr>
+                            <tr>
+                                <td>ค่าปรับ</td>
+                                <td>{request.fine} บาท</td>
+                            </tr>
+                        </> : <></>
+                    }
+                    <tr>
+                        <td>หมายเหตุ</td>
+                        <td>{request.note ? request.note : "-"}</td>
                     </tr>
                 </tbody>
             </table>
