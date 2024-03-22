@@ -65,3 +65,49 @@ exports.getRequestById = (req,res) => {
         return res.status(404).json(err)
     })
 }
+
+//Get All Request by user
+exports.getRequestByUser = (req,res) => {
+    const { user } = req.body
+    Requests.find({ requester: user }).populate("requester").populate("requester_club").populate("request_to").populate("approver").populate("item").then(result => {
+        return res.status(200).json(result)
+    }).catch(err => {
+        return res.status(404).json(err)
+    })
+}
+
+//Approve Request
+exports.approveRequest = (req,res) => {
+    const { request_id,approver, deposite, note } = req.body
+    if (note !== ""){
+        Requests.findOneAndUpdate({ _id:request_id }, { 
+            status: "Approve",
+            approver: req.user._id,
+            approver: approver,
+            deposite: deposite,
+            note: note
+        }).then(result => {
+            // return res.status(200).json(result)
+            return res.status(200).json({ "Message" : "Request Approved"})
+        }).catch(err => {
+            return res.status(404).json(err)
+        })
+    }
+    else {
+        Requests.findOneAndUpdate({ _id:request_id }, { 
+            status: "Approve",
+            approver: req.user._id,
+            approver: approver,
+            deposite: deposite,
+        }).then(result => {
+            return res.status(200).json({ "Message" : "Request Approved"})
+        }).catch(err => {
+            return res.status(404).json(err)
+        })
+    }
+}
+
+//Reject Request
+exports.rejectRequest = (req,res) => {
+    const { request_id,note } = req.body
+}
