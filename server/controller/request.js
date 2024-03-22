@@ -8,7 +8,7 @@ const sendEmailNotification = require('../utils/createRequestNotification');
 // Create Request
 exports.createRequest = async (req, res) => {
     try {
-        const { request_to, description, collected_date, returned_date, item } = req.body;
+        const { request_to, description, collected_date, returned_date, item, ownerMail } = req.body;
 
         // Get the current sequence value and increment it
         const counter = await Counters.findByIdAndUpdate(
@@ -37,7 +37,7 @@ exports.createRequest = async (req, res) => {
         await new_request.save();
 
         // Send email notification
-        sendEmailNotification(req.user.email,new_request,requestNumber,item);
+        sendEmailNotification(req.user.email,ownerMail,new_request,requestNumber,item);
 
         return res.status(200).json({ "Message": "Created Request Successful" });
     } catch (error) {

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
 const RequestSchema = mongoose.Schema({
+    request_number:    { type: String, required:true },
     requester:          { type: mongoose.Schema.Types.ObjectId, ref: "Users", default: null },
     requester_club:     { type: mongoose.Schema.Types.ObjectId, ref: "Clubs", default: null},
     request_to:         { type: mongoose.Schema.Types.ObjectId, ref: "Clubs", default: null},

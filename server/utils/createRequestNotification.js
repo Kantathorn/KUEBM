@@ -13,11 +13,12 @@ const transporter = nodemailer.createTransport({
 });
 
 // Function to send email notification
-const sendEmailNotification = (recipientEmail, detail, number, item) => {
+const sendEmailNotification = (recipientEmail, ownerEmail,detail, number, item) => {
   // Email options
   const mailOptions = {
     from: 'noreply.kusam@gmail.com',
     to: recipientEmail,
+    cc: ownerEmail,
     subject: 'KUEBM: คำร้องหมายเลข ' + number + ' ถูกสร้างเรียบร้อยแล้ว',
     html: `
       <p>หมายเลขคำร้อง:   ${number}</p>
