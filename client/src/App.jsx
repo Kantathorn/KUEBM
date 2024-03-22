@@ -11,6 +11,8 @@ import AddNewEquipment from './Page/Equipment/AddNewEquipment';
 import Equipment from './Page/Equipment/Equipment';
 import Club from './Page/ClubManager/Club';
 import Tracking from './Page/Request/Tracking';
+import RequestDetail from './Page/Request/RequestDetail';
+import Request from './Page/Request/Request';
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
         <Route path='/equipment/' element={<Equipment/>} />
         <Route path='/equipment/new' element={<AddNewEquipment/>} />
         <Route path='/club/management' element={<Club/>}/>
+        <Route path="/request/:id" element={<RequestDetail/>} />
+        <Route path="/request" element={<Request/>} />
       </Routes>
     </BrowserRouter>
   );

@@ -82,7 +82,7 @@ function CreateNew() {
               description : description,
               collected_date : collected_date,
               returned_date : returned_date,
-              item: selectedItem._id
+              item: selectedItem
             }, { withCredentials: true }).then((response => {
               // Action After Complete Create Requesr
               axios.patch("http://localhost:5500/equipment/change/status",{

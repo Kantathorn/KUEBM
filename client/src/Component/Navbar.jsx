@@ -50,6 +50,11 @@ function Navbar() {
                   <a className='nav-link active' aria-current="page" href="/club/management" style={{color: "#ffffff"}}>จัดการชมรม</a>
                 </li> : <></>
               }
+              {user.role === "ClubManager" ?
+                <li className="nav-item">
+                  <a className="nav-link active" aria-current="page" href="/request" style={{color: "#ffffff"}}>จัดการคำร้อง</a>
+                </li> : <></>
+              }
               {user.role === "User" && user.club !== null ?
                 <li className='nav-item'>
                   <a className='nav-link active' aria-current="page" href="/request/new" style={{color: "#ffffff"}}>สร้างคำขอยืม</a>
