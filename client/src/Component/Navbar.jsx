@@ -24,10 +24,10 @@ function Navbar() {
   }
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-dark border-bottom border-body fix-top">
+      <nav className="navbar navbar-expand-lg bg-dark border-bottom border-body fix-top" data-bs-theme="dark">
         <div className="container-fluid">
           <img src={logo} alt="Navbar-logo" width="75"/>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style={{color: "#ffffff"}}>
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -67,6 +67,7 @@ function Navbar() {
               }
             </ul>
             <div className="d-flex">
+              <p className='nav-item nav-link active navbar-nav me-auto mb-2 mb-lg-0' style={{color: "#ffffff"}}>{user.first_name} {user.last_name}</p>
               <button className="btn btn-outline-danger" onClickCapture={submitHandler}>Logout</button>
             </div>
           </div>
