@@ -5,6 +5,7 @@ const ClubSchema = new mongoose.Schema({
     type:           { type: mongoose.Schema.Types.ObjectId, ref: "ClubTypes", default: null },
     email:          { type: String, required:true },
     address:        { type: String, required:true },
+    promptPay:      { type: String, required:true },
     register_pass:  { type: String, required:true },
     status:         { type: String, required:true, enum: ['Active','Inactive'] },
     created_by:     { type: mongoose.Schema.Types.ObjectId, ref: "Users", default: null },

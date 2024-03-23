@@ -38,12 +38,13 @@ exports.deleteClubType = (req,res) => {
 
 //Create Club
 exports.createClub = (req,res) => {
-    const { name,type,email,address,register_pass } = req.body
+    const { name,type,email,address,promptPay,register_pass } = req.body
     const new_club = new Clubs({
         name: name,
         type: type,
         email: email,
         address: address,
+        promptPay: promptPay,
         register_pass: register_pass,
         status: 'Active',
         created_by: req.user._id,

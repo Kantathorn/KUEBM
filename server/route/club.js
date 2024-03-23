@@ -10,6 +10,6 @@ router.delete('/type/delete',isLoggedIn,deleteClubType)
 router.post('/create',isLoggedIn,createClub)
 router.get('/list',isLoggedIn,getClubList)
 router.patch('/change',isLoggedIn,chooseClub)
-router.get('/member',isLoggedIn,getClubMember)
+router.post('/member',isLoggedIn,getClubMember)
 
 module.exports = router

@@ -5,6 +5,7 @@ const Requests = require('../models/Requests');
 const Counters = require('../models/Counters');
 const sendEmailNotification = require('../utils/createRequestNotification');
 const sendApproveEmailNotification = require('../utils/approveRequestNotification');
+const sendCancelEmailNotification = require('../utils/cancelRequestNotification')
 
 // Create Request
 exports.createRequest = async (req, res) => {
@@ -118,6 +119,7 @@ exports.cancelRequest = (req,res) => {
         status: "Cancel",
         note: "ยกเลิกโดย " + req.user.first_name + " เนื่องจาก" + note
     }).populate('requester').populate('request_to').populate('approver').then(result => {
+        sendCancelEmailNotification(result,req.user,note)
         Equipments.findOneAndUpdate({ _id:result.item },{ status:"Available" }).then(result2 => {
             return res.status(200).json({ "Message" : "Request Canceled"})
         }).catch(err => {
