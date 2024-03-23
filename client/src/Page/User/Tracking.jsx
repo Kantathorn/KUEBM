@@ -190,7 +190,7 @@ const filteredRequests = sortedRequests.filter((request) => {
                       <td>{formatDate(item.returned_date)}</td>
                       <td>{item.collected_date ? formatDate(item.collected_date) : "-"}</td>
                       <td>{item.status}</td>
-                      <td>{item.note}</td>
+                      <td>{item.note ? item.note : "-"}</td>
                       <td>
                           <button className='btn btn-secondary btn-sm' onClick={() => handleDetailClick(item)}>
                             รายละเอียด

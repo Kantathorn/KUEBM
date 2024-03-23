@@ -164,14 +164,12 @@ function Equipment() {
                                             <button className="btn btn-warning btn-sm" onClick={() => handleEditClick(item)}>
                                                 แก้ไขสถานะ
                                             </button>
+                                            <button className='btn btn-primary btn-sm ms-3'>
+                                                ข้อมูลพัสดุ
+                                            </button>
                                             {item.status !== "Available" && item.status !== "Inactive" ? 
                                                 <button className='btn btn-secondary btn-sm ms-3'>
-                                                    รายละเอียดผู้ยืม
-                                                </button> : <></>
-                                            }
-                                            {item.status === "Available" || item.status === "Inactive" ? 
-                                                <button className='btn btn-secondary btn-sm ms-3'>
-                                                    รายละเอียด
+                                                    ข้อมูลผู้ยืม
                                                 </button> : <></>
                                             }
                                         </td>

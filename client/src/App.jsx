@@ -10,10 +10,12 @@ import CreateNew from './Page/User/CreateNew';
 import AddNewEquipment from './Page/Equipment/AddNewEquipment';
 import Equipment from './Page/Equipment/Equipment';
 import Club from './Page/ClubManager/Club';
+import ManageMember from './Page/ClubManager/ManageMember';
 import Tracking from './Page/User/Tracking';
 import RequestDetail from './Page/Request/RequestDetail';
 import Request from './Page/Request/Request';
 import RequestManage from './Page/Request/RequestManage';
+import EquipmentDetail from './Page/Equipment/EquipmentDetail';
 
 function App() {
   return (
@@ -29,7 +31,9 @@ function App() {
         <Route path='/request/tracking' element={<Tracking/>} />
         <Route path='/equipment/' element={<Equipment/>} />
         <Route path='/equipment/new' element={<AddNewEquipment/>} />
+        <Route path='/equipment/:id' element={<EquipmentDetail/>} />
         <Route path='/club/management' element={<Club/>}/>
+        <Route path='/club/management/member' element={<ManageMember/>}/>
         <Route path="/request/:id" element={<RequestDetail/>} />
         <Route path="/request/manage/:id" element={<RequestManage/>} />
         <Route path="/request" element={<Request/>} />

@@ -32,6 +32,7 @@ function CreateClubComponent() {
       type: "",
       email: "",
       address: "",
+      promptPay: "",
       register_pass: "",
       accept_policy: false
   });
@@ -43,7 +44,7 @@ function CreateClubComponent() {
   //Validate Data
   //Store Error State
   const [errors, setErrors] = useState({});
-  const { name,type,email,address,register_pass,accept_policy } = state;
+  const { name,type,email,address,promptPay,register_pass,accept_policy } = state;
 
   const validateForm = () => {
     const formError = {};
@@ -60,6 +61,9 @@ function CreateClubComponent() {
     }
     if (!address.trim()){
       formError.address = "กรุณาใส่ที่อยู่ชมรม"
+    }
+    if (!promptPay.trim()){
+      formError.promptPay = "กรุณาใส่หมายเลขพร้อมเพย์"
     }
     if (!register_pass.trim()){
       formError.register_pass = "กรุณากำหนดรหัสในการใช้เข้าร่วมชมรม"
@@ -171,6 +175,17 @@ function CreateClubComponent() {
           />
         </div>
         {errors.address && (<p className="error-alert mb-1">{errors.address}</p>)}
+        <label className="input-group fs-6">หมายเลขพร้อมเพย์</label>
+        <div className="input-group mb-1">
+          <input
+            type="text"
+            className="form-control form-control-lg bg-light fs-6"
+            placeholder="หมายเลขพร้อมเพย์ของบัญชีชมรม"
+            value={promptPay}
+            onChange={inputValue("promptPay")}
+          />
+        </div>
+        {errors.promptPay && (<p className="error-alert mb-1">{errors.promptPay}</p>)}
         <label className="input-group fs-6">รหัสในการเข้าร่วมชมรม</label>
         <div className="input-group mb-1">
           <input

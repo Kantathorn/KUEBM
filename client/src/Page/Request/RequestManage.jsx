@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+// import QRCode from 'qrcode.react'
 import logo from '../../Image/request-manage-logo.svg';
 import Navbar from '../../Component/Navbar';
+const generatePayload = require('promptpay-qr')
 
 function RequestManage() {
     const [request, setRequest] = useState(null);
@@ -96,6 +98,29 @@ function RequestManage() {
         }
     }
 
+    const handleDeliverRequest = () => {
+        if (request) {
+            Swal.fire({
+                title: `ชำระมัดจำ ${request.deposite} บาท`,
+                text: `พร้อมเพย์หมายเลข ${request.request_to.promptPay}`,
+                focusConfirm: false,
+                showCancelButton: true,
+                confirmButtonText: "ชำระแล้ว",
+                confirmButtonColor: "#198754",
+                cancelButtonText: "ยกเลิก",
+                cancelButtonColor: "#DC3545",
+                imageUrl: 'http://api.qrserver.com/v1/create-qr-code/?data='+ generatePayload(request.request_to.promptPay, 0) +'&size=100x100',
+                imageWidth: 200,
+                imageHeight: 200,
+                imageAlt: 'QR Code',
+            }).then((result) => {
+                if (result.isConfirmed){
+                    console.log(request.request_number)
+                }
+            })
+        }
+    }
+
     const renderRequestDetails = () => {
         if (!request) {
             return <div>Loading...</div>;
@@ -176,8 +201,7 @@ function RequestManage() {
                 : <></>}
                 {request.status === "Approve" ? 
                     <div className='d-flex justify-content-end'>
-                        <button className='btn btn-success'>บันทึกการจัดส่งพัสดุ</button>
-                        <button className='btn btn-danger ms-3'>ยกเลิกคำร้อง</button>
+                        <button className='btn btn-success' onClick={handleDeliverRequest}>บันทึกการจัดส่งพัสดุ</button>
                     </div>
                 : <></>}
                 {request.status === "In-Use" ? 
