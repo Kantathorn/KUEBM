@@ -44,7 +44,7 @@ function Request() {
 
   useEffect(() => {
     if (selectedRequest) {
-      if (selectedRequest.status === 'New' || selectedRequest.status === 'Approve' || selectedRequest.status === 'In-Use'){
+      if (selectedRequest.status === 'New' || selectedRequest.status === 'Approve' || selectedRequest.status === 'In-use'){
         window.location.href = `/request/manage/${selectedRequest._id}`
       }
       else {
@@ -181,9 +181,15 @@ const filteredRequests = sortedRequests.filter((request) => {
                       <td>{formatDate(item.returned_date)}</td>
                       <td>{item.status}</td>
                       <td>
-                          <button className='btn btn-warning btn-sm' style={{width: "9rem"}} onClick={() => handleDetailClick(item)}>
+                          {item.status === "Cancel" ? 
+                          <button className='btn btn-secondary btn-sm' style={{width: "7rem"}} onClick={() => handleDetailClick(item)}>
+                            รายละเอียด
+                          </button>
+                          :
+                          <button className='btn btn-warning btn-sm' style={{width: "7rem"}} onClick={() => handleDetailClick(item)}>
                             จัดการคำร้อง
                           </button>
+                        }
                       </td>
                     </tr>
                   )
