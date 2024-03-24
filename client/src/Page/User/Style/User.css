@@ -1,3 +1,13 @@
 .card-width {
     width: 20rem;
 }
+
+.table-responsive {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  
+.table td {
+    white-space: nowrap;
+}
+  

@@ -3,6 +3,7 @@ import axios from 'axios'
 import Swal from 'sweetalert2';
 
 import Navbar from '../../Component/Navbar'
+import './Style/User.css'
 
 function CreateNew() {
   const [user, setUser] = useState(null);
@@ -45,7 +46,7 @@ function CreateNew() {
       if (selectedItem) {
         // Display SweetAlert prompt for request detail
         Swal.fire({
-          title: 'โปรดระบุรายละเอียดในการขอยืม' + '\n' + selectedItem.name + '\n' + "จาก" + selectedItem.owner.name,
+          title: `โปรดระบุรายละเอียดในการขอยืม \n ${selectedItem.name} \n จาก ${selectedItem.owner.name}`,
           html: `
             <label for="description" class="input-group fs-6">เหตุผลในการยืม</label>
             <div className="input-group mb-1">
@@ -125,6 +126,10 @@ function CreateNew() {
       setSortConfig({ key, direction });
   };
 
+  const handleReloadClick = () => {
+    window.location.reload()
+  }
+
   const sortedEquipments = [...equipments].sort((a, b) => {
       if (sortConfig.key === 'category') {
           const valueA = (a.category ? a.category.name : '').toLowerCase();
@@ -185,8 +190,9 @@ function CreateNew() {
               value={searchTerm}
               onChange={handleSearch}
             />
+            <button className='btn btn-secondary mb-3 ms-3' onClick={() => handleReloadClick()}>Reload</button>
           </div>
-          <div className="table-responsive-md">
+          <div className="table-responsive">
                     <table className="table table-striped">
                         <thead>
                             <tr>

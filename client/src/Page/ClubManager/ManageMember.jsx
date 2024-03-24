@@ -3,6 +3,8 @@ import axios from 'axios';
 import Navbar from '../../Component/Navbar'
 import Swal from 'sweetalert2';
 
+import './Style.css'
+
 function ManageMember() {
     const [user, setUser] = useState([]);
     const [manager, setManager] = useState(null)
@@ -114,7 +116,7 @@ function ManageMember() {
                     <button className='btn btn-secondary mb-3 ms-3' onClick={() => handleReloadClick()}>Reload</button>
                 </div>
             </div>
-            <div className="table-responsive tb-overflow">
+            <div className="table-responsive">
                 <table className="table table-striped">
                     <thead>
                         <tr>

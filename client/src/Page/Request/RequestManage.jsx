@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-// import QRCode from 'qrcode.react'
 import logo from '../../Image/request-manage-logo.svg';
 import Navbar from '../../Component/Navbar';
 const generatePayload = require('promptpay-qr')
@@ -30,7 +29,7 @@ function RequestManage() {
     const handleApproveRequest = () => {
         if (request) {
             Swal.fire({
-                title: 'โปรดระบุรายละเอียดเพิ่มเติม'+ '\n' +'สำหรับคำร้องหมายเลข '+request.request_number,
+                title: `โปรดระบุรายละเอียดเพิ่มเติม \n สำหรับคำร้องหมายเลข ${request.request_number}`,
                 icon: 'question',
                 html: `
                     <label for="deposite" class="input-group fs-6">ค่ามัดจำ (บาท)</label>
@@ -87,37 +86,158 @@ function RequestManage() {
     const handleRejectRequest = () => {
         if (request) {
             Swal.fire({
-                title: 'ยกเลิกคำร้อง',
+                title: `ยืนยันที่จะปฏิเสธคำร้องหมายเลข ${request.request_number}`,
+                focusConfirm: false,
+                showCancelButton: true,
+                confirmButtonText: "ยืนยัน",
+                confirmButtonColor: "#198754",
+                cancelButtonText: "ยกเลิก",
+                cancelButtonColor: "#DC3545",
                 icon: 'question',
                 html: `
-                    <strong>คำร้องหมายเลข:</strong> ${request.request_number}<br/>
-                    <strong>สถานะคำร้อง:</strong> ${request.status}<br/>
-                    <!-- Add more request details here -->
+                    <label for="note" class="input-group fs-6">เหตุผลในการปฏิเสธ</label>
+                        <div className="input-group mb-1">
+                    <input id="note" class="swal2-input" placeholder="โปรดระบุเหตุผล">
                 `,
-            });
+                preConfirm: () => {
+                    return {
+                      note: document.getElementById('note').value
+                    };
+                }
+            }).then((result) => {
+                if (result.isConfirmed){
+                    const { note } = result.value
+                    axios.patch("http://localhost:5500/request/cancel",{ request_id:request._id,note:note },{withCredentials:true}).then(() => {
+                        Swal.fire({
+                            icon: "success",
+                            title: `ยกเลิกคำร้องแล้ว`,
+                            text: `คำร้องหมายเลข ${request.request_number} ถูกยกเลิกเรียบร้อยแล้ว`,
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            window.location.href = "/request"
+                        })
+                    }).catch((err) => {
+                        Swal.fire({
+                            icon: "error",
+                            title: `เกิดข้อผิดพลาด`,
+                            text: `กรุณาลองใหม่อีกครั้งภายหลัง`,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    })
+                }
+            })
         }
     }
 
     const handleDeliverRequest = () => {
         if (request) {
-            Swal.fire({
-                title: `ชำระมัดจำ ${request.deposite} บาท`,
-                text: `พร้อมเพย์หมายเลข ${request.request_to.promptPay}`,
-                focusConfirm: false,
-                showCancelButton: true,
-                confirmButtonText: "ชำระแล้ว",
-                confirmButtonColor: "#198754",
-                cancelButtonText: "ยกเลิก",
-                cancelButtonColor: "#DC3545",
-                imageUrl: 'http://api.qrserver.com/v1/create-qr-code/?data='+ generatePayload(request.request_to.promptPay, 0) +'&size=100x100',
-                imageWidth: 200,
-                imageHeight: 200,
-                imageAlt: 'QR Code',
-            }).then((result) => {
-                if (result.isConfirmed){
-                    console.log(request.request_number)
-                }
-            })
+            if (request.deposite === '0'){
+                Swal.fire({
+                    icon: `info`,
+                    title: `กรุณานำส่งพัสดุให้ผู้ยืม`,
+                    text: `คำร้องหมายเลข ${request.request_number} พร้อมส่งมอบแล้ว`,
+                    focusConfirm: false,
+                    showCancelButton: true,
+                    confirmButtonText: "ส่งมอบแล้ว",
+                    confirmButtonColor: "#198754",
+                    cancelButtonText: "ยกเลิก",
+                    cancelButtonColor: "#DC3545",
+                    html: `
+                        <label for="returned_date" class="input-group fs-6 mt-3">ต้องคืนภายในวันที่</label>
+                        <div className="input-group mb-1">
+                            <input id="returned_date" class="swal2-input" placeholder="Returned Date" type="datetime-local">
+                        </div>
+                    `,
+                    preConfirm: () => {
+                        return {
+                          returned_date: document.getElementById('returned_date').value
+                        };
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed){
+                        const { returned_date } = result.value
+                        axios.patch("http://localhost:5500/request/deliver",{ request_id: request._id,returned_date:returned_date },{ withCredentials:true }).then(() => {
+                            Swal.fire({
+                                icon: "success",
+                                title: `บันทึกการส่งมอบพัสดุแล้ว`,
+                                text: `คำร้องหมายเลข ${request.request_number} ถูกส่งมอบเรียบร้อยแล้ว`,
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            window.location.href = "/request"
+                        }).catch((error) => {
+                            Swal.fire({
+                                icon: "error",
+                                title: `เกิดข้อผิดพลาด`,
+                                text: `กรุณาลองใหม่อีกครั้งภายหลัง`,
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        })
+                    }
+                })
+            }
+            else {
+                Swal.fire({
+                    title: `ชำระมัดจำ ${request.deposite} บาท`,
+                    text: `พร้อมเพย์หมายเลข ${request.request_to.promptPay}`,
+                    focusConfirm: false,
+                    showCancelButton: true,
+                    confirmButtonText: "ชำระแล้ว",
+                    confirmButtonColor: "#198754",
+                    cancelButtonText: "ยกเลิก",
+                    cancelButtonColor: "#DC3545",
+                    imageUrl: 'http://api.qrserver.com/v1/create-qr-code/?data='+ generatePayload(request.request_to.promptPay, 0) +'&size=100x100',
+                    imageWidth: 200,
+                    imageHeight: 200,
+                    imageAlt: 'QR Code',
+                }).then((result) => {
+                    if (result.isConfirmed){
+                        Swal.fire({
+                            title: `โปรดบันทึกข้อมูลการชำระเงิน`,
+                            focusConfirm: false,
+                            showCancelButton: true,
+                            confirmButtonText: "ชำระแล้ว",
+                            confirmButtonColor: "#198754",
+                            cancelButtonText: "ยกเลิก",
+                            cancelButtonColor: "#DC3545",
+                            html: `
+                                <p>กรุณาตรวจสอบหลักฐานการโอนเงินให้เรียบร้อยก่อนบันทึก</p>
+                                <label for="slip_number" class="input-group fs-6">หมายเลขสลิป</label>
+                                <div className="input-group mb-1">
+                                    <input id="slip_number" class="swal2-input" placeholder="โปรดใส่หมายเลขสลิปโอนเงิน">
+                                </div>
+                                <label for="slip_number" class="input-group fs-6">ชื่อบัญชีผู้โอน</label>
+                                <div className="input-group mb-1">
+                                    <input id="pay_from" class="swal2-input" placeholder="โปรดใส่ชื่อบัญชีผู้โอน">
+                                </div>
+                                <label for="transaction_date" class="input-group fs-6 mt-3">วันและเวลาที่โอน</label>
+                                <div className="input-group mb-1">
+                                    <input id="transaction_date" class="swal2-input" placeholder="transaction_date" type="datetime-local">
+                                </div>
+                            `,
+                            preConfirm: () => {
+                                return {
+                                    slip_number: document.getElementById('slip_number').value,
+                                    pay_from: document.getElementById('pay_from').value,
+                                    transaction_date: document.getElementById('transaction_date').value
+                                };
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed){
+                                const { slip_number,pay_from,transaction_date } = result.value
+                                console.log({
+                                    slip_number: slip_number,
+                                    pay_from: pay_from,
+                                    transaction_date: transaction_date
+                                })
+                            }
+                        })
+                    }
+                })
+            }
         }
     }
 
@@ -217,7 +337,7 @@ function RequestManage() {
         <>
             <Navbar/>
             <div className='container d-flex justify-content-center align-items-center min-vh-100'>
-                <div className='card' style={{ width: '50rem' }}>
+                <div className='card mt-3 mb-3' style={{ width: '40rem' }}>
                     <img src={logo} alt='new' className='card-image' />
                     <div className="card-body">
                         <h5 className="card-title fs-2">จัดการคำร้องขอยืมพัสดุ</h5>

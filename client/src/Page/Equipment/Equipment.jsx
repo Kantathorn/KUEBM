@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
+import './Style/Equipment.css'
 import Navbar from '../../Component/Navbar';
 
 function Equipment() {
@@ -137,7 +138,7 @@ function Equipment() {
                         onChange={handleSearch}
                     />
                 </div>
-                <div className="table-responsive-md">
+                <div className="table-responsive">
                     <table className="table table-striped">
                         <thead>
                             <tr>

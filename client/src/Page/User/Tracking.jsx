@@ -3,6 +3,8 @@ import Swal from 'sweetalert2';
 import axios from 'axios'
 import Navbar from '../../Component/Navbar'
 
+import './Style/User.css'
+
 function Tracking() {
   const [user, setUser] = useState(null);
   const [requests, setRequests] = useState([]);
@@ -42,7 +44,7 @@ function Tracking() {
   
   const handleDeleteClick = (id) => {
     Swal.fire({
-      title: 'โปรดระบุเหตุผลในการยกเลิก' + '\n' + "คำร้องหมายเลข " + id.request_number,
+      title: `โปรดระบุเหตุผลในการยกเลิก \n คำร้องหมายเลข ${id.request_number}`,
       html: `
         <label for="note" class="input-group fs-6">เหตุผลในการยกเลิก</label>
         <div className="input-group mb-1">
@@ -141,7 +143,7 @@ const filteredRequests = sortedRequests.filter((request) => {
         formatDate(request.collected_date).toLowerCase().includes(searchTerm.toLowerCase()) ||
         formatDate(request.returned_date).toLowerCase().includes(searchTerm.toLowerCase()) ||
         request.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        request.note.toLowerCase().includes(searchTerm.toLowerCase())
+        (request.note && request.note.toLowerCase().includes(searchTerm.toLowerCase()))
     );
 });
 
@@ -164,7 +166,7 @@ const filteredRequests = sortedRequests.filter((request) => {
             />
             <button className='btn btn-secondary mb-3 ms-3' onClick={() => handleReloadClick()}>Reload</button>
           </div>
-          <div className="table-responsive tb-overflow">
+          <div className="table-responsive">
             <table className="table table-striped">
               <thead>
                 <tr>
@@ -174,7 +176,7 @@ const filteredRequests = sortedRequests.filter((request) => {
                   <th className='fs-6' onClick={() => handleSort('use_date')}>วันที่ต้องการยืม {getSortIcon('use_date')}</th>
                   <th className='fs-6' onClick={() => handleSort('returned_date')}>วันที่ต้องการคืน {getSortIcon('returned_date')}</th>
                   <th className='fs-6' onClick={() => handleSort('collected_date')}>วันที่รับพัสดุ {getSortIcon('collected_date')}</th>
-                  <th className='fs-6' onClick={() => handleSort('status')}>สถานะคำร้อง {getSortIcon('status')}</th>
+                  <th className='fs-6' onClick={() => handleSort('status')}>สถานะ {getSortIcon('status')}</th>
                   <th className='fs-6' onClick={() => handleSort('note')}>หมายเหตุ {getSortIcon('note')}</th>
                   <th></th>
                 </tr>
