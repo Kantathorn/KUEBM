@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import axios from 'axios'
-import './Style/Register.css'
-import RegisterComponent from '../Component/RegisterComponent'
-import logo from '../Image/logo-a-tran.svg'
+import './Style.css'
+import RegisterComponent from '../../Component/RegisterComponent'
+import logo from '../../Image/logo-a-tran.svg'
 
 function Register() {
     //Check if logged in

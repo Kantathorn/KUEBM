@@ -1,8 +1,8 @@
 import React,{useEffect, useState} from 'react'
 import Swal from 'sweetalert2'
 import axios from 'axios'
-import './Style/Login.css'
-import logo from '../Image/logo-a-tran.svg'
+import './Style.css'
+import logo from '../../Image/logo-a-tran.svg'
 
 function Login() {
     //Check if logged in
@@ -97,7 +97,7 @@ function Login() {
                                 <p>
                                     <a href='/' className='anchor-label'>ติดต่อเรา</a>
                                     | 
-                                    <a href='/' className='anchor-label'>ลืมรหัสผ่าน</a>
+                                    <a href='/forgot_password' className='anchor-label'>ลืมรหัสผ่าน</a>
                                 </p>
                             </div>
                             <div className='input-group mb-3'>
