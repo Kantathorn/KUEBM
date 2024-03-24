@@ -7,7 +7,8 @@ const EquipmentSchema = mongoose.Schema({
     category:   { type: mongoose.Schema.Types.ObjectId, ref: "EquipmentCategories", default: null },
     owner:      { type: mongoose.Schema.Types.ObjectId, ref: "Clubs", default: null},
     cost:       { type: String, required:true },
-    status:     { type: String, required:true, enum: ['Available','Pending','Borrowing','Inactive'] },
+    status:     { type: String, required:true, enum: ['Available','Pending','In-use','Inactive'] },
+    note:       { type: String, default: null },
     created_by:     { type: mongoose.Schema.Types.ObjectId, ref: "Users", default: null },
     updated_by:     { type: mongoose.Schema.Types.ObjectId, ref: "Users", default: null }
 },{timestamps: true, collection: 'Equipments'})

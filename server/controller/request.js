@@ -81,35 +81,21 @@ exports.getRequestByUser = (req,res) => {
 //Approve Request
 exports.approveRequest = (req,res) => {
     const { request_id, deposite, note, collected_date } = req.body
-    if (note !== ""){
         Requests.findOneAndUpdate({ _id:request_id }, { 
             status: "Approve",
             approver: req.user._id,
             collected_date: collected_date,
             deposite: deposite,
             note: note
-        }).populate('requester').populate('request_to').populate('approver').then(result => {
+        }).populate('requester').populate('request_to').then(result => {
             // return res.status(200).json(result)
-            sendApproveEmailNotification(result,collected_date)
+            sendApproveEmailNotification(result,collected_date,req.user)
             return res.status(200).json({ "Message" : "Request Approved"})
             // return res.status(200).json(result)
         }).catch(err => {
+            console.log(err)
             return res.status(404).json(err)
         })
-    }
-    else {
-        Requests.findOneAndUpdate({ _id:request_id }, { 
-            status: "Approve",
-            collected_date: collected_date,
-            approver: req.user._id,
-            deposite: deposite,
-        }).populate('requester').populate('request_to').populate('approver').then(result => {
-            sendApproveEmailNotification(result,collected_date)
-            return res.status(200).json({ "Message" : "Request Approved"})
-        }).catch(err => {
-            return res.status(404).json(err)
-        })
-    }
 }
 
 //Reject Request
@@ -117,6 +103,7 @@ exports.cancelRequest = (req,res) => {
     const { request_id,note } = req.body
     Requests.findOneAndUpdate({ _id:request_id }, {
         status: "Cancel",
+        collected_date: null,
         note: "ยกเลิกโดย " + req.user.first_name + " เนื่องจาก" + note
     }).populate('requester').populate('request_to').populate('approver').then(result => {
         sendCancelEmailNotification(result,req.user,note)
@@ -125,5 +112,41 @@ exports.cancelRequest = (req,res) => {
         }).catch(err => {
             return res.status(404).json(err)
         })
+    })
+}
+
+//Delivered Request
+exports.deliveredRequest = (req,res) => {
+    const { request_id,returned_date } = req.body
+    Requests.findOneAndUpdate({ _id:request_id }, {
+        status: "In-use",
+        returned_date: returned_date,
+    }).populate('item').then(result => {
+        Equipments.findOneAndUpdate({ _id:result.item },{ status:"In-use" }).then(result2 => {
+            return res.status(200).json({ "Message" : "Request Delivered"})
+        }).catch(err => {
+            return res.status(404).json(err)
+        })
+    }).catch(err => {
+        return res.status(404).json(err)
+    })
+}
+
+//Returned Request
+exports.returnedRequest = (req,res) => {
+    const { request_id,returned_date,note,fine } = req.body
+    Requests.findOneAndUpdate({ _id:request_id }, {
+        status: "Returned",
+        returned_date: returned_date,
+        note: note,
+        fine: fine
+    }).populate('item').then(result => {
+        Equipments.findOneAndUpdate({ _id:result.item },{ status:"Available",note:note }).then(result2 => {
+            return res.status(200).json({ "Message" : "Request Returned"})
+        }).catch(err => {
+            return res.status(404).json(err)
+        })
+    }).catch(err => {
+        return res.status(404).json(err)
     })
 }

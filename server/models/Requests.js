@@ -5,7 +5,7 @@ const RequestSchema = mongoose.Schema({
     requester:          { type: mongoose.Schema.Types.ObjectId, ref: "Users", default: null },
     requester_club:     { type: mongoose.Schema.Types.ObjectId, ref: "Clubs", default: null},
     request_to:         { type: mongoose.Schema.Types.ObjectId, ref: "Clubs", default: null},
-    status:             { type: String, required:true, enum: ['New','Approve','Reject','In-Use','Returned','Cancel'] },
+    status:             { type: String, required:true, enum: ['New','Approve','Reject','In-use','Returned','Cancel'] },
     approver:           { type: mongoose.Schema.Types.ObjectId, ref: "Users", default: null },
     description:        { type: String, required:true },
     collected_date:     { type: Date, default: null },

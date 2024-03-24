@@ -54,11 +54,13 @@ const ClubRouter = require('./route/club')
 const UserRouter = require('./route/user')
 const EquipmentRouter = require('./route/equipment')
 const RequestRouter = require('./route/request')
+const PaymentRouter = require('./route/payment')
 //Route
 app.use('/auth', AuthRouter)
 app.use('/club',ClubRouter)
 app.use('/user',UserRouter)
 app.use('/equipment',EquipmentRouter)
 app.use('/request',RequestRouter)
+app.use('/payment',PaymentRouter)
 
 app.listen(port,()=>console.log(`Start server in port ${port}`))

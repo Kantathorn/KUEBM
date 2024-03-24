@@ -18,19 +18,19 @@ const formatDate = (dateString) => {
     return new Date(dateString).toLocaleString('th-TH', options);
 }
 
-const sendApproveEmailNotification = (request,date) => {
+const sendApproveEmailNotification = (request,date,approver) => {
     // Email options
     const mailOptions = {
       from: 'noreply.kusam@gmail.com',
       to: request.requester.email,
       cc: [
         request.request_to.email,
-        request.approver.email
+        approver_email
       ],
       subject: 'KUEBM: คำร้องหมายเลข ' + request.request_number + ' ถูกอนุมัติเรียบร้อยแล้ว',
       html: `
         <p>หมายเลขคำร้อง:   ${request.request_number}</p>
-        <p>ได้รับการอนุมัติจาก: ${request.approver.first_name}</p>
+        <p>ได้รับการอนุมัติจาก: ${approver.first_name}</p>
         <p>วันที่ยืม:          ${request.collected_date}</p>
         <p>วันที่คืน:          ${request.returned_date}</p>
         <p>กรุณารับพัสดุภายในวันที่ ${formatDate(date)} น. ณ ${request.request_to.address}</p>
