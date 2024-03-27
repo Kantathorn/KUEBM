@@ -95,7 +95,9 @@ function CreateNew() {
                 Swal.fire({
                   title: "สร้างคำขอยืมสำเร็จ",
                   text: "โปรดรอการอนุมัติจากชมรมที่ท่านยืม",
-                  icon: "success"
+                  icon: "success",
+                  showConfirmButton: false,
+                  timer: 1500
                 }).then(function() {
                     window.location.href = '/user'
                 })
@@ -106,7 +108,9 @@ function CreateNew() {
               Swal.fire({
                 title: "ไม่สามารถยืมพัสดุชิ้นนี้ได้",
                 text: "เนื่องจากข้อมูลไม่ครบถ้วน กรุณาลองใหม่อีกครั้ง",
-                icon: "error"
+                icon: "error",
+                showConfirmButton: false,
+                timer: 1500
               }).then(function() {
                 window.location.reload()
               })

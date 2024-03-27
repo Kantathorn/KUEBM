@@ -179,14 +179,19 @@ const filteredRequests = sortedRequests.filter((request) => {
                       <td>{item.description}</td>
                       <td>{formatDate(item.use_date)}</td>
                       <td>{formatDate(item.returned_date)}</td>
-                      <td>{item.status}</td>
+                      {item.status === "New" ? <td style={{color: "#2a9d8f"}}>{item.status}</td> : <></>}
+                      {item.status === "Approve" ? <td style={{color: "#264653"}}>{item.status}</td> : <></>}
+                      {item.status === "Reject" ? <td style={{color: "#e76f51"}}>{item.status}</td> : <></>}
+                      {item.status === "In-use" ? <td style={{color: "#f4a261"}}>{item.status}</td> : <></>}
+                      {item.status === "Returned" ? <td>{item.status}</td> : <></>}
+                      {item.status === "Cancel" ? <td style={{color: "#ff5550"}}>{item.status}</td> : <></>}
                       <td>
                           {item.status === "Cancel" || item.status === "Returned" ? 
-                          <button className='btn btn-secondary btn-sm' style={{width: "7rem"}} onClick={() => handleDetailClick(item)}>
+                          <button className='btn btn-secondary btn-sm' style={{width: "6rem"}} onClick={() => handleDetailClick(item)}>
                             รายละเอียด
                           </button>
                           :
-                          <button className='btn btn-warning btn-sm' style={{width: "7rem"}} onClick={() => handleDetailClick(item)}>
+                          <button className='btn btn-warning btn-sm' style={{width: "6rem"}} onClick={() => handleDetailClick(item)}>
                             จัดการคำร้อง
                           </button>
                         }

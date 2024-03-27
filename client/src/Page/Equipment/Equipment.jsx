@@ -128,6 +128,10 @@ function Equipment() {
         <>
             <Navbar />
             <div className='equipment-table ms-3 mt-3 me-3 mb-3'>
+                <h1 className='d-flex justify-content-center' style={{color: "#264653"}}>
+                    Manage Equipment
+                </h1>
+                <p className='d-flex justify-content-center fs-6'>จัดการข้อมูลพัสดุอุปกรณ์</p>
                 <div className='d-flex justify-content-end'>
                     <input
                         className='form-control mb-3'
