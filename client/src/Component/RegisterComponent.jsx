@@ -67,7 +67,9 @@ function RegisterComponent() {
         Swal.fire({
             title: "ลงทะเบียนสำเร็จ",
             text: "ระบบได้รับข้อมูลการลงทะเบียนเรียบร้อยแล้ว",
-            icon: "success"
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500
         }).then(function() {
             window.location.href = '/login'
         })
@@ -77,7 +79,9 @@ function RegisterComponent() {
         Swal.fire({
             title: "ไม่สามารถลงทะเบียนได้",
             text: "เนื่องจากมีอีเมลผู้ใช้นี้อยู่ในระบบแล้ว",
-            icon: "error"
+            icon: "error",
+            showConfirmButton: false,
+            timer: 1500
         })
     }
 
@@ -85,7 +89,9 @@ function RegisterComponent() {
         Swal.fire({
             title: "ไม่สามารถลงทะเบียนได้",
             text: "กรุณากรอกข้อมูลให้ถูกต้องครบถ้วน",
-            icon: "warning"
+            icon: "warning",
+            showConfirmButton: false,
+            timer: 1500
         })
     }
 

@@ -7,16 +7,17 @@ import User from './Page/User/User';
 import IsLogin from './Component/IsLogin';
 import CreateClub from './Page/User/CreateClub';
 import ClubManager from './Page/ClubManager/ClubManager';
-import CreateNew from './Page/User/CreateNew';
+import CreateNew from './Page/User/CreateNewRequest';
 import AddNewEquipment from './Page/Equipment/AddNewEquipment';
 import Equipment from './Page/Equipment/Equipment';
 import Club from './Page/ClubManager/Club';
 import ManageMember from './Page/ClubManager/ManageMember';
-import Tracking from './Page/User/Tracking';
+import Tracking from './Page/User/TrackingRequest';
 import RequestDetail from './Page/Request/RequestDetail';
 import Request from './Page/Request/Request';
 import RequestManage from './Page/Request/RequestManage';
 import EquipmentDetail from './Page/Equipment/EquipmentDetail';
+import ChooseClub from './Page/User/ChooseClub';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path='/register' element={<Register/>} />
         <Route path='/forgot_password' element={<ForgotPassword/>} />
         <Route exact path='/user' element={<User/>} />
+        <Route path='/user/choose_club' element={<ChooseClub/> } />
         <Route path='/create_club' element={<CreateClub/>} />
         <Route path='/club_manager' element={<ClubManager/>} />
         <Route path='/request/new' element={<CreateNew/>} />

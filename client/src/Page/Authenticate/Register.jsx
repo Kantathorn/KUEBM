@@ -1,28 +1,43 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import axios from 'axios'
 import './Style.css'
 import RegisterComponent from '../../Component/RegisterComponent'
 import logo from '../../Image/logo-a-tran.svg'
 
 function Register() {
-    //Check if logged in
+    const [user, setUser] = useState({});
+    //Check User Permission and get user data
     useEffect(() => {
-        axios.get('http://localhost:5500/user/role',{withCredentials: true}).then((response) => {
-        console.log(response.data)
-        if (response.data === 'SystemAdmin') {
-            window.location.href = '/system_admin'
-        }
-        else if (response.data === 'ClubManager') {
-            window.location.href = '/club_manager'
-        }
-        else if (response.data === 'EquipmentManager') {
-            window.location.href = '/equipment_manager'
-        }
-        else if (response.data === 'User') {
-            window.location.href = '/user'
-        }
-    }).catch(() => {})
+        axios.get('http://localhost:5500/user/info',{withCredentials: true}).then((response) => {
+            setUser(response.data)
+        })
+        .catch((error) => {})
     },[])
+
+    useEffect(() => {
+        if (user) {
+            if (user.role !== "User"){
+                if (user.role === "SystemAdmin"){
+                    window.location.href = '/system_admin'
+                }
+                else if (user.role === "ClubManager"){
+                    window.location.href = '/club_manager'
+                }
+                else if (user.role === "EquipmentManager"){
+                    window.location.href = '/equipment_manager'
+                }
+            }
+            else {
+                if (user.club === null){
+                    window.location.href = '/user/choose_club'
+                }
+                else {
+                    window.location.href = '/user'
+                }
+            }
+        }
+    }, [user])
+
     return (
         <div className='container d-flex justify-content-center align-items-center min-vh-100'>
             <div className='row border rounded-5 p-3 bg-white shadow box-area'>

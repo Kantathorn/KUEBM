@@ -5,24 +5,38 @@ import './Style.css'
 import logo from '../../Image/logo-a-tran.svg'
 
 function Login() {
-    //Check if logged in
+    const [user, setUser] = useState({});
+    //Check User Permission and get user data
     useEffect(() => {
-        axios.get('http://localhost:5500/user/role',{withCredentials: true}).then((response) => {
-            console.log(response.data)
-            if (response.data === 'SystemAdmin') {
-                window.location.href = '/system_admin'
+        axios.get('http://localhost:5500/user/info',{withCredentials: true}).then((response) => {
+            setUser(response.data)
+        })
+        .catch((error) => {})
+    },[])
+
+    useEffect(() => {
+        if (user) {
+            if (user.role !== "User"){
+                if (user.role === "SystemAdmin"){
+                    window.location.href = '/system_admin'
+                }
+                else if (user.role === "ClubManager"){
+                    window.location.href = '/club_manager'
+                }
+                else if (user.role === "EquipmentManager"){
+                    window.location.href = '/equipment_manager'
+                }
             }
-            else if (response.data === 'ClubManager') {
-                window.location.href = '/club_manager'
+            else {
+                if (user.club === null){
+                    window.location.href = '/user/choose_club'
+                }
+                else {
+                    window.location.href = '/user'
+                }
             }
-            else if (response.data === 'EquipmentManager') {
-                window.location.href = '/equipment_manager'
-            }
-            else if (response.data === 'User') {
-                window.location.href = '/user'
-            }
-        }).catch((error) => {})
-    }, [])
+        }
+    }, [user])
 
     const [state,setState] = useState({
         username:"",
@@ -34,29 +48,55 @@ function Login() {
     }
     const submitHandler = async function (e) {
         e.preventDefault();
-        axios.post('http://localhost:5500/auth/login',state, {withCredentials: true}).then((response) => {
-            if (response.data.role === 'SystemAdmin') {
-                window.location.href = '/system_admin'
-            }
-            else if (response.data.role === 'ClubManager') {
-                window.location.href = '/club_manager'
-            }
-            else if (response.data.role === 'EquipmentManager') {
-                window.location.href = '/equipment_manager'
-            }
-            else if (response.data.role === 'User') {
-                window.location.href = '/user'
-            }
-        })
-        .catch((error) => {
+        if (state.username === "" || state.password === ""){
             Swal.fire({
                 icon: 'error',
                 title: 'ไม่สามารถเข้าสู่ระบบได้',
-                text: 'เนื่องจากอีเมลล์หรือรหัสผ่านไม่ถูกต้อง',
-                allowOutsideClick: false,
-                confirmButtonColor: '#198754'
+                text: 'กรุณาระบุข้อมูลให้ครบถ้วน',
+                showConfirmButton: false,
+                timer: 1500
             })
-        })
+        }
+        else {
+            axios.post('http://localhost:5500/auth/login',state, {withCredentials: true}).then((response) => {
+                Swal.fire({
+                    icon: "success",
+                    title: `ลงชื่อเข้าใช้เรียบร้อยแล้ว`,
+                    text: `ยินดีต้องรับสู่ระบบ KUEBM`,
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    if (response.data.role !== "User"){
+                        if (response.data.role === 'SystemAdmin') {
+                            window.location.href = '/system_admin'
+                        }
+                        else if (response.data.role === 'ClubManager') {
+                            window.location.href = '/club_manager'
+                        }
+                        else if (response.data.role === 'EquipmentManager') {
+                            window.location.href = '/equipment_manager'
+                        }
+                    }
+                    else {
+                        if (response.data.club !== null){
+                            window.location.href = '/user'
+                        }
+                        else {
+                            window.location.href = '/user/choose_club'
+                        }
+                    }
+                })
+            })
+            .catch((error) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ไม่สามารถเข้าสู่ระบบได้',
+                    text: 'เนื่องจากอีเมลล์หรือรหัสผ่านไม่ถูกต้อง',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            })
+        }
     }
     return (
         <div className='container d-flex justify-content-center align-items-center min-vh-100'>

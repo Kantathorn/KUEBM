@@ -181,7 +181,7 @@ const filteredRequests = sortedRequests.filter((request) => {
                       <td>{formatDate(item.returned_date)}</td>
                       <td>{item.status}</td>
                       <td>
-                          {item.status === "Cancel" ? 
+                          {item.status === "Cancel" || item.status === "Returned" ? 
                           <button className='btn btn-secondary btn-sm' style={{width: "7rem"}} onClick={() => handleDetailClick(item)}>
                             รายละเอียด
                           </button>

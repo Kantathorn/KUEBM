@@ -48,7 +48,10 @@ function ForgotPassword() {
         const isFormValid = validateForm();
 
         if (isFormValid){
-            console.log(username)
+            Swal.fire({
+                title: "กรุณาใส่หมายเลข OTP ที่ได้รับ",
+                text:  `อีเมลล์: ${state.username}`
+            })
         }
     }
     return (
@@ -81,7 +84,7 @@ function ForgotPassword() {
                             <div className='input-group mb-3'>
                                 <input 
                                     type='submit' 
-                                    value='ลืมรหัสผ่าน' 
+                                    value='ขอรหัส OTP' 
                                     className='btn btn-lg btn-success w-100 fs-5'
                                 />
                             </div>
