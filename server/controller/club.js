@@ -160,3 +160,23 @@ exports.removeMember = (req,res) => {
         return res.status(404).json(error)
     })
 }
+
+//Get Club Profile
+exports.getClubProfile = (req,res) => {
+    Clubs.findOne({ _id:req.user.club }).populate('type').populate('created_by').populate('updated_by').then((result) => {
+        return res.status(200).json(result)
+    }).catch((error) => {
+        return res.status(404).json(error)
+    })
+}
+
+//Change Club Profile
+exports.changeClubProfile = (req,res) => {
+    const { club_id,email,address,promptPay } = req.body
+    Clubs.findOneAndUpdate({_id:club_id},{email:email,address:address,promptPay:promptPay}).then((result) => {
+        return res.status(200).json({ 'Message': 'Success'});
+    })
+    .catch(err => {
+        return res.status(400).json(err);
+    });
+}
