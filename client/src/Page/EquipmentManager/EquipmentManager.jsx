@@ -1,8 +1,12 @@
 import React from 'react'
+import Navbar from '../../Component/Navbar'
 
 function EquipmentManager() {
   return (
-    <div>EquipmentManager</div>
+    <>
+      <Navbar/>
+      <div>EquipmentManager</div>
+    </>
   )
 }
 

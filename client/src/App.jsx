@@ -17,6 +17,7 @@ import RequestDetail from './Page/Request/RequestDetail';
 import Request from './Page/Request/RequestList';
 import RequestManage from './Page/Request/RequestManage';
 import EquipmentDetail from './Page/Equipment/EquipmentDetail';
+import EquipmentManager from './Page/EquipmentManager/EquipmentManager';
 import ChooseClub from './Page/User/ChooseClub';
 import JoinRequest from './Page/ClubManager/JoinRequest';
 
@@ -43,6 +44,7 @@ function App() {
         <Route path="/request/manage/:id" element={<RequestManage/>} />
         <Route path="/request" element={<Request/>} />
         <Route path='/club/management/member/join_request/:id' element={<JoinRequest/> } />
+        <Route path='/equipment_manager' element={<EquipmentManager/>} />
       </Routes>
     </BrowserRouter>
   );
