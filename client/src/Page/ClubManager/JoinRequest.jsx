@@ -61,7 +61,7 @@ function JoinRequest() {
                             showConfirmButton: false,
                             timer: 1500
                         }).then(() => {
-                            setUser(result.data)
+                            window.location.reload()
                         })
                     })
                 }
@@ -118,6 +118,59 @@ function JoinRequest() {
             </table>
             );
         };
+
+    const handleApprove = () => {
+        Swal.fire({
+            title: "ยืนยันที่จะอนุมัติคำขอเข้าร่วมชมรม",
+            text: "เมื่ออนุมัติแล้ว ผู้ใช้นี้จะถูกตั้งบทบาท(Role) เป็น User อัตโนมัติ",
+            icon: "question",
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: "ยืนยัน",
+            confirmButtonColor: "#198754",
+            cancelButtonText: "ยกเลิก",
+            cancelButtonColor: "#DC3545"
+        }).then((result) => {
+            if (result.isConfirmed){
+                axios.patch("http://localhost:5500/club/join_request/approve", {request_id:request._id},{withCredentials:true}).then(() => {
+                    Swal.fire({
+                        icon: "success",
+                        title: "อนุมัติคำขอสำเร็จ",
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        window.location.href = "/club_manager"
+                    })
+                })
+            }
+        })
+    }
+
+    const handleReject = () => {
+        Swal.fire({
+            title: "ยืนยันที่จะปฏิเสธคำขอเข้าร่วมชมรม",
+            icon: "question",
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: "ยืนยัน",
+            confirmButtonColor: "#198754",
+            cancelButtonText: "ยกเลิก",
+            cancelButtonColor: "#DC3545"
+        }).then((result) => {
+            if (result.isConfirmed){
+                axios.post("http://localhost:5500/club/join_request/cancel", {request_id:request._id},{withCredentials:true}).then(() => {
+                        Swal.fire({
+                            icon: "success",
+                            title: "ปฏิเสธคำขอสำเร็จ",
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            window.location.href = "/club_manager"
+                        })
+                })
+            }
+        })
+    }
         
     return (
         <>
@@ -130,6 +183,13 @@ function JoinRequest() {
                         <div className='card-text'>
                             {renderRequestDetails()}
                         </div>
+                        {user && user.role === "ClubManager" && user.club._id === request.club._id ?
+                        <div className='d-flex justify-content-end'>
+                            <button className='btn btn-success' onClick={handleApprove}>อนุมัติคำร้อง</button>
+                            <button className='btn ms-2 btn-danger' onClick={handleReject}>ปฏิเสธคำร้อง</button>
+                        </div>
+                        : <></>
+                        }
                     </div>
                 </div>
             </div>

@@ -68,7 +68,7 @@ function ChooseClub() {
                             showConfirmButton: false,
                             timer: 1500
                         }).then(() => {
-                            window.location.reload()
+                            window.location.href = "/user"
                         })
                     })
                 }
