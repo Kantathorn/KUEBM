@@ -50,6 +50,26 @@ function Navbar() {
                 </li>
               </>
               : <></>}
+              {user.role === "EquipmentManager" ?
+              <>
+                <li className="nav-item">
+                   <a className="nav-link active" aria-current="page" href="/equipment_manager" style={{color: "#ffffff"}}>หน้าหลัก</a>
+                </li>
+                <li className='nav-item'>
+                  <a className='nav-link active' aria-current="page" href="/request/new" style={{color: "#ffffff"}}>สร้างคำขอยืม</a>
+                </li>
+                <li className='nav-item'>
+                  <a className='nav-link active' aria-current="page" href="/request/tracking" style={{color: "#ffffff"}}>ติดตามสถานะคำขอยืม</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link active" aria-current="page" href="/equipment" style={{color: "#ffffff"}}>จัดการพัสดุ</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link active" aria-current="page" href="/request" style={{color: "#ffffff"}}>จัดการคำร้อง</a>
+                </li>
+              </>
+              :
+              <></>}
               {user.role === "ClubManager" ?
               <>
                 <li className="nav-item">
