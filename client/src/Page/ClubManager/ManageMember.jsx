@@ -9,7 +9,8 @@ function ManageMember() {
     const [user, setUser] = useState([]);
     const [manager, setManager] = useState(null)
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedItem, setSelectedItem] = useState(null);
+    const [selectUser, setSelectUser] = useState('');
+    const [selectDelete, setSelectDelete] = useState('')
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
 
     useEffect(() => {
@@ -37,19 +38,104 @@ function ManageMember() {
     };
 
     const handleEditClick = (item) => {
-        setSelectedItem(item);
+        setSelectUser(item);
     };
+    useEffect(() => {
+        if (selectUser) {
+            Swal.fire({
+                icon: 'question',
+                title: `กรุณาเลือกตำแหน่งใหม่`,
+                text: `${selectUser.first_name} ${selectUser.last_name}`,
+                input: "select",
+                inputOptions: {
+                    User : "User",
+                    EquipmentManager : "EquipmentManager"
+                },
+                inputPlaceholder: `ตำแหน่ง`,
+                focusConfirm: false,
+                showCancelButton: true,
+                confirmButtonText: "ยืนยัน",
+                confirmButtonColor: "#198754",
+                cancelButtonText: "ยกเลิก",
+                cancelButtonColor: "#DC3545",
+            }).then((result) => {
+                if (result.isConfirmed){
+                    console.log({
+                        user : selectUser._id,
+                        role : result.value
+                    })
+                    axios.patch("http://localhost:5500/user/change/role",{ user:selectUser._id,role:result.value },{withCredentials:true}).then(() => {
+                        Swal.fire({
+                            icon: "success",
+                            title: `เปลี่ยนแปลงตำแหน่งเรียบร้อย`,
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            window.location.reload()
+                        })
+                    }).catch(() => {
+                        Swal.fire({
+                            icon: "error",
+                            title: `เกิดข้อผิดพลาด`,
+                            text: `กรุณาลองใหม่อีกครั้งภายหลัง`,
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            window.location.reload()
+                        })
+                    })
+                }
+            })
+            setSelectUser('')
+        }
+    }, [selectUser]);
+
+    const handleDeleteClick = (item) => {
+        setSelectDelete(item)
+    }
+    useEffect(() => {
+        if (selectDelete){
+            Swal.fire({
+                icon: 'warning',
+                text: `ยืนยันที่จะลบ ${selectDelete.first_name} ${selectDelete.last_name} ออกจากชมรม`,
+                focusConfirm: false,
+                showCancelButton: true,
+                confirmButtonText: "ยืนยัน",
+                confirmButtonColor: "#198754",
+                cancelButtonText: "ยกเลิก",
+                cancelButtonColor: "#DC3545",
+            }).then((result) => {
+                if (result.isConfirmed){
+                    axios.patch('http://localhost:5500/club/remove_member',{ user:selectDelete._id },{withCredentials:true}).then((response) => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'ลบสมาชิกสำเร็จ',
+                            text: `${response.data.first_name} ${response.data.last_name} ออกจากชมรมเรียบร้อยแล้ว`,
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            window.location.reload()
+                        })
+                    }).catch(() => {
+                        Swal.fire({
+                            icon: "error",
+                            title: `เกิดข้อผิดพลาด`,
+                            text: `กรุณาลองใหม่อีกครั้งภายหลัง`,
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            window.location.reload()
+                        })
+                    })
+                }
+            })
+            setSelectDelete('')
+        }
+    }, [selectDelete])
     const handleReloadClick = () => {
         window.location.reload()
     }
 
-    useEffect(() => {
-        if (selectedItem) {
-            Swal.fire({
-            
-            })
-        }
-    }, [selectedItem]);
 
     const handleSort = (key) => {
         let direction = 'asc';
@@ -142,9 +228,16 @@ function ManageMember() {
                                     <td>{item.role}</td>
                                     <td>{formatUpdatedAt(item.updatedAt)}</td>
                                     <td>
+                                        {item.role !== 'ClubManager' ?
+                                        <>
                                         <button className="btn btn-warning btn-sm" onClick={() => handleEditClick(item)}>
-                                            แก้ไขข้อมูล
+                                            เปลี่ยนตำแหน่ง
                                         </button>
+                                        <button className="btn btn-danger btn-sm ms-2" onClick={() => handleDeleteClick(item)}>
+                                            ออกจากชมรม
+                                        </button>
+                                        </>
+                                        : <></>}
                                     </td>
                                 </tr>
                             );
