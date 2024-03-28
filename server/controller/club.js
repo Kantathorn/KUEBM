@@ -4,6 +4,7 @@ const Users = require('../models/Users')
 const JoinClubRequests = require('../models/JoinClubRequests')
 const joinClubRequestNotification = require('../utils/joinClubRequestNotification')
 const cancelJoinClubNotification = require('../utils/cancelJoinClubNotification')
+const approveJoinClubNotification = require('../utils/approveJoinClubNotification')
 
 //Create New Club type
 exports.createClubType = (req,res) => {
@@ -131,8 +132,9 @@ exports.getRequestByUser = (req,res) => {
 //Approve Choose Club Request
 exports.approveChooseClub = (req,res) => {
     const { request_id } = req.body
-    JoinClubRequests.findOneAndUpdate({ _id:request_id }, { status:"Approved"}).then(result => {
-        Users.findOneAndUpdate({ _id:result.user}, {club:result.club}).then(result => {
+    JoinClubRequests.findOneAndUpdate({ _id:request_id }, { status:"Approved"}).populate('user').populate('club').then(result => {
+        Users.findOneAndUpdate({ _id:result.user}, {club:result.club}).then(result2 => {
+            approveJoinClubNotification(result,req.user)
             return res.json(result)
         })
     })
