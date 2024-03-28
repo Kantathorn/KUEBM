@@ -132,7 +132,7 @@ exports.deliveredRequest = (req,res) => {
         status: "In-use",
         returned_date: returned_date,
     }).populate('item').then(result => {
-        Equipments.findOneAndUpdate({ _id:result.item },{ status:"In-use" }).then(result2 => {
+        Equipments.findOneAndUpdate({ _id:result.item },{ status:"In-use",updated_by: req.user._id }).then(result2 => {
             return res.status(200).json({ "Message" : "Request Delivered"})
         }).catch(err => {
             return res.status(404).json(err)
@@ -151,7 +151,7 @@ exports.returnedRequest = (req,res) => {
         note: note,
         fine: fine
     }).populate('item').then(result => {
-        Equipments.findOneAndUpdate({ _id:result.item },{ status:"Available",note:note }).then(result2 => {
+        Equipments.findOneAndUpdate({ _id:result.item },{ status:"Available",note:note,updated_by: req.user._id }).then(result2 => {
             return res.status(200).json({ "Message" : "Request Returned"})
         }).catch(err => {
             return res.status(404).json(err)

@@ -70,7 +70,7 @@ exports.getAllEquipment = (req,res) => {
 //Change Equipment Status
 exports.changeStatus = (req,res) => {
     const { equipment,status } = req.body
-    Equipments.findOneAndUpdate({ _id:equipment },{ status:status }).then(result => {
+    Equipments.findOneAndUpdate({ _id:equipment },{ status:status,updated_by: req.user._id }).then(result => {
         return res.status(200).json({ "Message" : "Change Equipment Status Successful"})
     }).catch(err => {
         return res.status(404).json(err)
