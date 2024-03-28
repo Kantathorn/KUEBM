@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { isLoggedIn } = require('./auth')
 
-const { createClubType,getClubType,deleteClubType,createClub,getClubList,chooseClubRequest,getClubMember,getRequestById,approveChooseClub,rejectChooseClub,getRequestByUser } = require('../controller/club')
+const { createClubType,getClubType,deleteClubType,createClub,getClubList,chooseClubRequest,getClubMember,getRequestById,approveChooseClub,rejectChooseClub,getRequestByUser,removeMember } = require('../controller/club')
 
 router.post('/type/create',isLoggedIn,createClubType)
 router.get('/type/list',isLoggedIn,getClubType)
@@ -15,5 +15,6 @@ router.get('/join_request/byid/:id',getRequestById)
 router.patch('/join_request/approve',isLoggedIn,approveChooseClub)
 router.post('/join_request/cancel',isLoggedIn,rejectChooseClub)
 router.get('/join_request/user',isLoggedIn,getRequestByUser)
+router.patch('/remove_member',isLoggedIn,removeMember)
 
 module.exports = router

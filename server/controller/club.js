@@ -150,3 +150,13 @@ exports.rejectChooseClub = (req,res) => {
         }))
     })
 }
+
+//Remove Club Member
+exports.removeMember = (req,res) => {
+    const { user } = req.body
+    Users.findOneAndUpdate({ _id:user }, { club:null,role:"User" }).then((result) => {
+        return res.status(200).json(result)
+    }).catch((error) => {
+        return res.status(404).json(error)
+    })
+}
