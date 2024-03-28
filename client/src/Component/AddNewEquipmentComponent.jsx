@@ -95,7 +95,9 @@ function AddNewEquipmentComponent() {
             Swal.fire({
               title: "เพิ่มพัสดุสำเร็จ",
               text: "ระบบได้ทำการเพิ่มพัสดุใหม่ให้คุณเรียบร้อยแล้ว",
-              icon: "success"
+              icon: "success",
+              showConfirmButton: false,
+              timer: 1500
             }).then(function() {
                 window.location.href = '/equipment'
             })
@@ -103,7 +105,9 @@ function AddNewEquipmentComponent() {
             Swal.fire({
               title: "ไม่สามารถเพิ่มพัสดุใหม่ได้",
               text: "เนื่องจากมีพัสดุชิ้นนี้อยู่ในระบบแล้ว",
-              icon: "error"
+              icon: "error",
+              showConfirmButton: false,
+              timer: 1500
             })
           })
         }

@@ -7,7 +7,8 @@ import Navbar from '../../Component/Navbar';
 
 function Equipment() {
     const [user, setUser] = useState(null);
-    const [equipments, setEquipments] = useState([]); 
+    const [equipments, setEquipments] = useState([]);
+    const [request,setRequest] = useState(null)
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedItem, setSelectedItem] = useState(null);
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
@@ -42,6 +43,10 @@ function Equipment() {
         setSelectedItem(item);
     };
 
+    const handleDetailClick = (item) => {
+        setRequest(item)
+    }
+
     useEffect(() => {
         if (selectedItem) {
             // console.log(selectedItem._id);
@@ -61,14 +66,14 @@ function Equipment() {
                 cancelButtonText: "ยกเลิก",
                 cancelButtonColor: "#DC3545",
                 inputValidator: (value) => {
-                    // console.log(value)
-                    // console.log(selectedItem._id)
                     if (value !== selectedItem.status){
                         axios.patch("http://localhost:5500/equipment/change/status", { equipment:selectedItem._id, status:value }, { withCredentials: true }).then((response) => {
                             Swal.fire({
                                 title: "เปลี่ยนสถานะสำเร็จ",
                                 text: selectedItem.name + " ถูกเปลี่ยนเป็น " + value,
-                                icon: "success"
+                                icon: "success",
+                                showConfirmButton: false,
+                                timer: 1500
                               }).then(function() {
                                   window.location.reload()
                               })
@@ -76,9 +81,23 @@ function Equipment() {
                     }
                 }
             })
-            setSelectedItem('') // Clear Select Item
+            setSelectedItem('')
         }
     }, [selectedItem]);
+
+    useEffect(() => {
+        if (request){
+            axios.post('http://localhost:5500/request/item',{ item:request._id },{withCredentials: true}).then((result) => {
+                window.location.href = `/request/${result.data._id}`
+            })
+            setRequest('')
+        }
+    },[request])
+
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+        return new Date(dateString).toLocaleString('th-TH', options);
+    }
 
     const handleSort = (key) => {
         let direction = 'asc';
@@ -87,6 +106,10 @@ function Equipment() {
         }
         setSortConfig({ key, direction });
     };
+
+    const handleReloadClick = () => {
+        window.location.reload()
+    }
 
     const sortedEquipments = [...equipments].sort((a, b) => {
         if (sortConfig.key === 'category') {
@@ -120,7 +143,8 @@ function Equipment() {
             item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             item.detail.toLowerCase().includes(searchTerm.toLowerCase()) ||
             item.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            (item.category && item.category.name.toLowerCase().includes(searchTerm.toLowerCase()))
+            (item.category && item.category.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+            item.cost.toLowerCase().includes(searchTerm.toLowerCase())
         );
     });
 
@@ -141,6 +165,7 @@ function Equipment() {
                         value={searchTerm}
                         onChange={handleSearch}
                     />
+                    <button className='btn btn-secondary mb-3 ms-3' onClick={() => handleReloadClick()}>Reload</button>
                 </div>
                 <div className="table-responsive">
                     <table className="table table-striped">
@@ -151,7 +176,11 @@ function Equipment() {
                                 <th className='fs-6' onClick={() => handleSort('name')}>รายการ {getSortIcon('name')}</th>
                                 <th className='fs-6' onClick={() => handleSort('detail')}>รายละเอียดเพิ่มเติม {getSortIcon('detail')}</th>
                                 <th className='fs-6' onClick={() => handleSort('category')}>หมวดหมู่ {getSortIcon('category')}</th>
+                                <th className='fs-6' onClick={() => handleSort('cost')}>ราคา {getSortIcon('cost')}</th>
                                 <th className='fs-6' onClick={() => handleSort('status')}>สถานะ {getSortIcon('status')}</th>
+                                <th className='fs-6'>ถูกเพิ่มโดย</th>
+                                <th className='fs-6'>แก้ไขโดย</th>
+                                <th className='fs-6'>แก้ไขล่าสุดเมื่อ</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -164,16 +193,20 @@ function Equipment() {
                                         <td>{item.name}</td>
                                         <td>{item.detail}</td>
                                         <td>{item.category ? item.category.name : '-'}</td>
-                                        <td>{item.status}</td>
+                                        <td>{item.cost}</td>
+                                        {item.status === "Available" ? <td style={{color: "#2a9d8f"}}>{item.status}</td> : <></>}
+                                        {item.status === "Pending" ? <td style={{color: "#e76f51"}}>{item.status}</td> : <></>}
+                                        {item.status === "In-use" ? <td style={{color: "#f4a261"}}>{item.status}</td> : <></>}
+                                        {item.status === "Inactive" ? <td style={{color: "#ff5550"}}>{item.status}</td> : <></>}
+                                        <td>{item.created_by ? item.created_by.first_name + ' ' + item.created_by.last_name : '-'}</td>
+                                        <td>{item.updated_by ? item.updated_by.first_name + ' ' + item.updated_by.last_name : '-'}</td>
+                                        <td>{formatDate(item.updatedAt)}</td>
                                         <td>
                                             <button className="btn btn-warning btn-sm" onClick={() => handleEditClick(item)}>
                                                 แก้ไขสถานะ
                                             </button>
-                                            <button className='btn btn-primary btn-sm ms-3'>
-                                                ข้อมูลพัสดุ
-                                            </button>
                                             {item.status !== "Available" && item.status !== "Inactive" ? 
-                                                <button className='btn btn-secondary btn-sm ms-3'>
+                                                <button className='btn btn-secondary btn-sm ms-3' onClick={() => handleDetailClick(item)}>
                                                     ข้อมูลผู้ยืม
                                                 </button> : <></>
                                             }
