@@ -98,7 +98,7 @@ exports.approveRequest = (req,res) => {
         })
 }
 
-//Reject Request
+//Cancel Request
 exports.cancelRequest = (req,res) => {
     const { request_id,note } = req.body
     Requests.findOneAndUpdate({ _id:request_id }, {

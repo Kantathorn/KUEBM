@@ -1,6 +1,9 @@
 const ClubTypes = require('../models/ClubTypes')
 const Clubs = require('../models/Clubs')
 const Users = require('../models/Users')
+const JoinClubRequests = require('../models/JoinClubRequests')
+const joinClubRequestNotification = require('../utils/joinClubRequestNotification')
+const cancelJoinClubNotification = require('../utils/cancelJoinClubNotification')
 
 //Create New Club type
 exports.createClubType = (req,res) => {
@@ -38,14 +41,13 @@ exports.deleteClubType = (req,res) => {
 
 //Create Club
 exports.createClub = (req,res) => {
-    const { name,type,email,address,promptPay,register_pass } = req.body
+    const { name,type,email,address,promptPay } = req.body
     const new_club = new Clubs({
         name: name,
         type: type,
         email: email,
         address: address,
         promptPay: promptPay,
-        register_pass: register_pass,
         status: 'Active',
         created_by: req.user._id,
         updated_by: req.user._id
@@ -72,17 +74,25 @@ exports.getClubList = (req,res) => {
 }
 
 //Choose Clubs
-exports.chooseClub = (req,res) => {
-    const { user,club,register_pass } = req.body
-    Clubs.findOne({ _id:club,register_pass:register_pass }).then(result => {
+exports.chooseClubRequest = (req,res) => {
+    const { user,club } = req.body
+    Clubs.findOne({ _id:club }).then(result => {
         if (result == null){
-            return res.status(404).json({ "Message" : "Wrong Passcode"})
+            return res.status(404).json({ "Message" : "No Club"})
         }
         else {
-            Users.findOneAndUpdate({ _id:user },{ club:club }).then(result => {
-                return res.status(200).json({ "Message" : "Change Clubs Successful"})
-            }).catch(err2 => {
-                return res.status(404).json(err2)
+            const new_request = new JoinClubRequests({
+                user : user,
+                club : result._id,
+                status : "Requested"
+            })
+            new_request.save().then(success => {
+                JoinClubRequests.findOne({ _id:success._id}).populate('user').populate('club').then((result => {
+                    Users.findOne( { club:success.club,role:"ClubManager" } ).then((result2 => {
+                        joinClubRequestNotification(result,result2)
+                        return res.status(200).json("Success")
+                    }))
+                }))
             })
         }
     }).catch(err => {
@@ -97,5 +107,44 @@ exports.getClubMember = (req,res) => {
         return res.json(result)
     }).catch(err => {
         return res.status(404).json(err)
+    })
+}
+
+exports.getRequestById = (req,res) => {
+    const id = req.params.id
+    JoinClubRequests.findOne({_id:id}).populate('user').populate('club').then(result => {
+        return res.status(200).json(result)
+    }).catch(err => {
+        return res.status(404).json(err)
+    })
+}
+
+//Check User Request
+exports.getRequestByUser = (req,res) => {
+    JoinClubRequests.findOne({ user:req.user._id,status:"Requested"}).populate('user').populate('club').then(result => {
+        return res.status(200).json(result)
+    }).catch(err => {
+        return res.status(404).json(err)
+    })
+}
+
+//Approve Choose Club Request
+exports.approveChooseClub = (req,res) => {
+    const { request_id } = req.body
+    JoinClubRequests.findOneAndUpdate({ _id:request_id }, { status:"Approved"}).then(result => {
+        Users.findOneAndUpdate({ _id:result.user}, {club:result.club}).then(result => {
+            return res.json(result)
+        })
+    })
+}
+
+//Reject Choose Club Request
+exports.rejectChooseClub = (req,res) => {
+    const { request_id } = req.body
+    JoinClubRequests.findOneAndUpdate({ _id:request_id }, { status:"Rejected"}).populate('user').populate('club').then(result => {
+        Users.findOne( { club:result.club,role:"ClubManager" } ).then((result2 => {
+            cancelJoinClubNotification(result,result2,req.user)
+            return res.status(200).json("Rejected Approve")
+        }))
     })
 }

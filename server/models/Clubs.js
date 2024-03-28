@@ -6,10 +6,9 @@ const ClubSchema = new mongoose.Schema({
     email:          { type: String, required:true },
     address:        { type: String, required:true },
     promptPay:      { type: String, required:true },
-    register_pass:  { type: String, required:true },
     status:         { type: String, required:true, enum: ['Active','Inactive'] },
     created_by:     { type: mongoose.Schema.Types.ObjectId, ref: "Users", default: null },
     updated_by:     { type: mongoose.Schema.Types.ObjectId, ref: "Users", default: null }
 },{timestamps: true, collection: 'Clubs'})
 
-module.exports = mongoose.model("Clubs", ClubSchema)
+module.exports = mongoose.model("Clubs", ClubSchema) 

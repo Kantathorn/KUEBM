@@ -25,7 +25,7 @@ const sendApproveEmailNotification = (request,date,approver) => {
       to: request.requester.email,
       cc: [
         request.request_to.email,
-        approver_email
+        approver.email
       ],
       subject: 'KUEBM: คำร้องหมายเลข ' + request.request_number + ' ถูกอนุมัติเรียบร้อยแล้ว',
       html: `
