@@ -32,8 +32,7 @@ function CreateClubComponent() {
       type: "",
       email: "",
       address: "",
-      promptPay: "",
-      accept_policy: false
+      promptPay: ""
   });
   //Handle Input
   const inputValue = (name) => (event) => {
@@ -43,7 +42,7 @@ function CreateClubComponent() {
   //Validate Data
   //Store Error State
   const [errors, setErrors] = useState({});
-  const { name,type,email,address,promptPay,accept_policy } = state;
+  const { name,type,email,address,promptPay } = state;
 
   const validateForm = () => {
     const formError = {};
@@ -63,9 +62,6 @@ function CreateClubComponent() {
     }
     if (!promptPay.trim()){
       formError.promptPay = "กรุณาใส่หมายเลขพร้อมเพย์"
-    }
-    if (!accept_policy){
-      formError.accept_policy = "โปรดอ่านเงื่อนไข และ ยอมรับข้อตกลงในการสร้างชมรมใหม่"
     }
     setErrors(formError);
     return Object.keys(formError).length === 0;
@@ -182,19 +178,6 @@ function CreateClubComponent() {
           />
         </div>
         {errors.promptPay && (<p className="error-alert mb-1">{errors.promptPay}</p>)}
-        <div class="form-check">
-          <input 
-            type="checkbox" 
-            className="form-check-input" 
-            value={accept_policy}
-            onChange={() => setState({ ...state, accept_policy: !accept_policy })}
-          />
-          <label class="form-check-label" for="flexCheckDefault">
-            {/* Add Policy file */}
-            ยอมรับเงื่อนไข 
-          </label>
-        </div>
-        {errors.accept_policy && (<p className="error-alert mb-1">{errors.accept_policy}</p>)}
         <div className='input-group mb-3 mt-3'>
           <input
             type='submit'
