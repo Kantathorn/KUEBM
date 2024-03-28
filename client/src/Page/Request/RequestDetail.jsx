@@ -98,7 +98,7 @@ function RequestDetail() {
 
     return (
         <div className='container d-flex justify-content-center align-items-center min-vh-100'>
-            <div className='card mt-3 mb-3' style={{ width: '40rem' }}>
+            <div className='card mt-3 mb-3' style={{ width: '50rem' }}>
                 <img src={logo} alt='new' className='card-image' />
                 <div className="card-body">
                     <h5 className="card-title fs-2">รายละเอียดคำร้องขอยืมพัสดุ</h5>

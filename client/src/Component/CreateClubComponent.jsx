@@ -33,7 +33,6 @@ function CreateClubComponent() {
       email: "",
       address: "",
       promptPay: "",
-      register_pass: "",
       accept_policy: false
   });
   //Handle Input
@@ -44,7 +43,7 @@ function CreateClubComponent() {
   //Validate Data
   //Store Error State
   const [errors, setErrors] = useState({});
-  const { name,type,email,address,promptPay,register_pass,accept_policy } = state;
+  const { name,type,email,address,promptPay,accept_policy } = state;
 
   const validateForm = () => {
     const formError = {};
@@ -64,9 +63,6 @@ function CreateClubComponent() {
     }
     if (!promptPay.trim()){
       formError.promptPay = "กรุณาใส่หมายเลขพร้อมเพย์"
-    }
-    if (!register_pass.trim()){
-      formError.register_pass = "กรุณากำหนดรหัสในการใช้เข้าร่วมชมรม"
     }
     if (!accept_policy){
       formError.accept_policy = "โปรดอ่านเงื่อนไข และ ยอมรับข้อตกลงในการสร้างชมรมใหม่"
@@ -186,17 +182,6 @@ function CreateClubComponent() {
           />
         </div>
         {errors.promptPay && (<p className="error-alert mb-1">{errors.promptPay}</p>)}
-        <label className="input-group fs-6">รหัสในการเข้าร่วมชมรม</label>
-        <div className="input-group mb-1">
-          <input
-            type="text"
-            className="form-control form-control-lg bg-light fs-6"
-            placeholder="รหัสนี้จะถูกใช้ในการเข้าร่วมชมรมของสมาชิก"
-            value={register_pass}
-            onChange={inputValue("register_pass")}
-          />
-        </div>
-        {errors.register_pass && (<p className="error-alert mb-1">{errors.register_pass}</p>)}
         <div class="form-check">
           <input 
             type="checkbox" 

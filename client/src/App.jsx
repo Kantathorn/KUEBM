@@ -18,6 +18,7 @@ import Request from './Page/Request/Request';
 import RequestManage from './Page/Request/RequestManage';
 import EquipmentDetail from './Page/Equipment/EquipmentDetail';
 import ChooseClub from './Page/User/ChooseClub';
+import JoinRequest from './Page/ClubManager/JoinRequest';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
         <Route path="/request/:id" element={<RequestDetail/>} />
         <Route path="/request/manage/:id" element={<RequestManage/>} />
         <Route path="/request" element={<Request/>} />
+        <Route path='/club/management/member/join_request/:id' element={<JoinRequest/> } />
       </Routes>
     </BrowserRouter>
   );

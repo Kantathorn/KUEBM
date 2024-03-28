@@ -18,9 +18,8 @@ function ChooseClubForm(props) {
   const [state,setState] = useState({
     user: '',
     club: '',
-    register_pass: ''
   })
-  const { club,register_pass } = state
+  const { club } = state
 
   useEffect(() => {
     setState(prevState => ({ ...prevState, user: props.userData._id }));
@@ -35,9 +34,6 @@ function ChooseClubForm(props) {
     const formErrors = {};
     if (!club.trim()) {
       formErrors.organization = "โปรดเลือกชมรมของคุณ";
-    }
-    if (!register_pass.trim()) {
-      formErrors.register_pass = "โปรดใส่รหัสที่ได้รับจากผู้ดูแลชมรม"
     }
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
@@ -59,19 +55,21 @@ function ChooseClubForm(props) {
       }).then((result) => {
         if (result.isConfirmed){
           //Confirm
-          axios.patch('http://localhost:5500/club/change', state, { withCredentials: true }).then((response => {
+          axios.post('http://localhost:5500/club/change', state, { withCredentials: true }).then((response => {
             Swal.fire({
-              title: "เข้าร่วมชมรมสำเร็จ",
-              text: "ระบบได้ทำการเพิ่มคุณเข้าชมรมเรียบร้อยแล้ว",
-              icon: "success"
+              title: "ส่งคำร้องเข้าร่วมชมรมสำเร็จ",
+              text: "กรุณารอการอนุมัติจากผู้ดูแลชมรม",
+              icon: "success",
+              showConfirmButton: false,
+              timer: 1500
             }).then(function() {
                 window.location.reload()
             })
           }))
           .catch((error) => {
             Swal.fire({
-              title: "ไม่สามารถเข้าร่วมชมรมได้",
-              text: "เนื่องจากรหัสเข้าชมรมไม่ถูกต้อง",
+              title: "เกิดข้อผิดพลาด",
+              text: "กรุณาลองใหม่ภายหลัง",
               icon: "error"
             })
           })
@@ -100,17 +98,6 @@ function ChooseClubForm(props) {
               </option>
             ))}
           </select>
-        </div>
-        {errors.register_pass && (<p className="error-alert mb-1">{errors.register_pass}</p>)}
-        <label className='input-group fs-6'>รหัสเข้าชมรม</label>
-        <div className='input-group mb-1'>
-          <input
-            type='text'
-            className='form-control form-control-lg bg-light fs-6'
-            placeholder='รหัสในการเข้าร่วมชมรม'
-            value={register_pass}
-            onChange={inputValue('register_pass')}
-          />
         </div>
         {errors.register_pass && (<p className="error-alert mb-1">{errors.register_pass}</p>)}
         <div className='input-group mb-3 mt-3'>

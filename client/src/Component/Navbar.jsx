@@ -32,13 +32,16 @@ function Navbar() {
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              {user.role === "User" ?
+              {user.role === "User" && user.club === null ?
                 <li className="nav-item">
-                   <a className="nav-link active" aria-current="page" href="/user" style={{color: "#ffffff"}}>หน้าหลัก</a>
+                   <a className="nav-link active" aria-current="page" href="/user/choose_club" style={{color: "#ffffff"}}>หน้าหลัก</a>
                 </li>
               : <></>}
               {user.role === "User" && user.club !== null ?
               <>
+                <li className="nav-item">
+                   <a className="nav-link active" aria-current="page" href="/user" style={{color: "#ffffff"}}>หน้าหลัก</a>
+                </li>
                 <li className='nav-item'>
                   <a className='nav-link active' aria-current="page" href="/request/new" style={{color: "#ffffff"}}>สร้างคำขอยืม</a>
                 </li>
