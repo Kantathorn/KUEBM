@@ -66,8 +66,8 @@ function Navbar() {
                     จัดการข้อมูลชมรม
                   </a>
                   <ul className="dropdown-menu">
-                    <li><a className="dropdown-item" href="/">แก้ไขข้อมูลชมรม</a></li>
-                    <li><a className="dropdown-item" href="/">จัดการสมาชิก</a></li>
+                    <li><a className="dropdown-item" href="/club/management">แก้ไขข้อมูลชมรม</a></li>
+                    <li><a className="dropdown-item" href="/club/management/member">จัดการสมาชิก</a></li>
                   </ul>
                 </li>
               </>
