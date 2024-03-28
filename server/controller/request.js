@@ -78,6 +78,16 @@ exports.getRequestByUser = (req,res) => {
     })
 }
 
+//Get Request By Item
+exports.getRequestByItem = (req,res) => {
+    const { item } = req.body
+    Requests.findOne({ item:item }).populate("requester").populate("requester_club").populate("request_to").populate("approver").populate("item").then(result => {
+        return res.status(200).json(result)
+    }).catch(err => {
+        return res.status(404).json(err)
+    })
+}
+
 //Approve Request
 exports.approveRequest = (req,res) => {
     const { request_id, deposite, note, collected_date } = req.body
