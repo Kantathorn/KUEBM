@@ -10,7 +10,7 @@ import ClubManager from './Page/ClubManager/ClubManager';
 import CreateNew from './Page/User/CreateNewRequest';
 import AddNewEquipment from './Page/Equipment/AddNewEquipment';
 import Equipment from './Page/Equipment/EquipmentList';
-import Club from './Page/ClubManager/Club';
+import Club from './Page/ClubManager/ClubProfile';
 import ManageMember from './Page/ClubManager/ManageMember';
 import Tracking from './Page/User/TrackingRequest';
 import RequestDetail from './Page/Request/RequestDetail';
