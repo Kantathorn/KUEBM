@@ -1,5 +1,3 @@
-const Clubs = require('../models/Clubs');
-const Users = require('../models/Users');
 const Equipments = require('../models/Equipments');
 const Requests = require('../models/Requests');
 const Counters = require('../models/Counters');
