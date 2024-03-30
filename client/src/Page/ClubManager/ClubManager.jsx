@@ -7,6 +7,8 @@ import approveIcon from '../../Image/icon-approve.svg'
 import inuIcon from '../../Image/icon-in-use.svg'
 import comIcon from '../../Image/icon-return.svg'
 
+import EquipmentChart from '../../Component/EquipmentChart'
+
 function ClubManager() {
     const [user, setUser] = useState([]);
     const [date,setDate] = useState('')
@@ -156,7 +158,9 @@ function ClubManager() {
                         <div className="card mb-4">
                             <div className="card-body">
                                 <h5 className="card-title text-uppercase text-muted mb-4">สถิติพัสดุของชมรม</h5>
-
+                                <div className='d-flex justify-content-center'>
+                                    <EquipmentChart/>
+                                </div>
                             </div>
                         </div>
                     </div>
