@@ -84,7 +84,7 @@ function ForgotPassword() {
                             <div className='input-group mb-3'>
                                 <input 
                                     type='submit' 
-                                    value='ขอรหัส OTP' 
+                                    value='ลืมรหัสผ่าน' 
                                     className='btn btn-lg btn-success w-100 fs-5'
                                 />
                             </div>

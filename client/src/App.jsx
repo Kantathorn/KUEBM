@@ -20,6 +20,7 @@ import EquipmentDetail from './Page/Equipment/EquipmentDetail';
 import EquipmentManager from './Page/EquipmentManager/EquipmentManager';
 import ChooseClub from './Page/User/ChooseClub';
 import JoinRequest from './Page/ClubManager/JoinRequest';
+import EditProfile from './Page/User/EditProfile';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
         <Route path="/request" element={<Request/>} />
         <Route path='/club/management/member/join_request/:id' element={<JoinRequest/> } />
         <Route path='/equipment_manager' element={<EquipmentManager/>} />
+        <Route path='/editprofile' element={<EditProfile/>} />
       </Routes>
     </BrowserRouter>
   );

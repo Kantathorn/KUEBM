@@ -65,16 +65,20 @@ function Tracking() {
     }).then((result) => {
       if (result.isConfirmed) {
         const { note } = result.value;
-        axios.post("http://localhost:5500/request/cancel",{
+        axios.patch("http://localhost:5500/request/cancel",{
           request_id : id._id,
           note : note
         }, { withCredentials: true }).then(response => {
           Swal.fire({
             title: "ยกเลิกคำร้องสำเร็จ",
-            icon: "success"
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500
           }).then(function() {
               window.location.href = '/request/tracking'
           })
+        }).catch((error) => {
+          console.log(error)
         })
       }
     })

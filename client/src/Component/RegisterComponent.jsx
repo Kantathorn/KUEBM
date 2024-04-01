@@ -27,9 +27,9 @@ function RegisterComponent() {
     const validateForm = () => {
         const formErrors = {};
         if (!email.trim()) {
-            formErrors.email = "กรุณาใส่อีเมลล์ KU";
+            formErrors.email = "กรุณาใส่อีเมล KU";
         } else if (!/\S+@ku.th/.test(email)) {
-            formErrors.email = "อีเมลล์ KU ของคุณไม่ถูกต้อง";
+            formErrors.email = "อีเมล KU ของคุณไม่ถูกต้อง";
         }
 
         if (password.length <= 7) {

@@ -94,7 +94,8 @@ function Navbar() {
               : <></>}
             </ul>
             <div className="d-flex">
-              <p className='nav-item nav-link active navbar-nav me-auto mb-2 mb-lg-0' style={{color: "#ffffff"}}>{user.first_name} {user.last_name}</p>
+                   <a className="nav-item nav-link active navbar-nav me-auto mb-2 mb-lg-0" aria-current="page" href="/editprofile" style={{color: "#ffffff"}}>{user.first_name} {user.last_name}</a>
+              {/* <p className='nav-item nav-link active navbar-nav me-auto mb-2 mb-lg-0' style={{color: "#ffffff"}}>{user.first_name} {user.last_name}</p> */}
               <button className="btn btn-outline-danger" onClickCapture={submitHandler}>Logout</button>
             </div>
           </div>

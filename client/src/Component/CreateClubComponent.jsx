@@ -53,9 +53,9 @@ function CreateClubComponent() {
       formError.type = "กรุณาเลือกประเภทชมรม"
     }
     if (!email.trim()) {
-      formError.email = "กรุณาใส่อีเมลล์ของชมรม";
+      formError.email = "กรุณาใส่อีเมลของชมรม";
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      formError.email = "อีเมลล์ไม่ถูกต้อง";
+      formError.email = "อีเมลไม่ถูกต้อง";
     }
     if (!address.trim()){
       formError.address = "กรุณาใส่ที่อยู่ชมรม"
@@ -90,7 +90,9 @@ function CreateClubComponent() {
               Swal.fire({
                 title: "สร้างชมรมสำเร็จ",
                 text: "ระบบกำลังนำคุณเข้าสู่หน้าจัดการชมรม",
-                icon: "success"
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1500
               }).then(function() {
                   window.location.href = '/club_manager'
               })
@@ -99,7 +101,9 @@ function CreateClubComponent() {
               Swal.fire({
                 title: "เกิดข้อผิดพลาด ไม่สามารถสร้างชมรมได้",
                 text: error,
-                icon: "error"
+                icon: "error",
+                showConfirmButton: false,
+                timer: 1500
               })
             })
           }))
@@ -145,7 +149,7 @@ function CreateClubComponent() {
           </select>
         </div>
         {errors.type && (<p className="error-alert mb-1">{errors.type}</p>)}
-        <label className="input-group fs-6">อีเมลล์ชมรม</label>
+        <label className="input-group fs-6">อีเมลชมรม</label>
         <div className="input-group mb-1">
           <input
             type="email"

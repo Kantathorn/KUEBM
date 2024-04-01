@@ -46,8 +46,10 @@ function CreateNew() {
       if (selectedItem) {
         // Display SweetAlert prompt for request detail
         Swal.fire({
-          title: `โปรดระบุรายละเอียดในการขอยืม \n ${selectedItem.name} \n จาก ${selectedItem.owner.name}`,
           html: `
+            <h2>โปรดระบุรายละเอียดในการขอยืม</h2>
+            <h3>${selectedItem.name}</h3>
+            <p>จาก ${selectedItem.owner.name}</p>
             <label for="description" class="input-group fs-6">เหตุผลในการยืม</label>
             <div className="input-group mb-1">
               <input id="description" class="swal2-input" placeholder="เช่น ใช้ในโครงการเปิดโลกกิจกรรม">

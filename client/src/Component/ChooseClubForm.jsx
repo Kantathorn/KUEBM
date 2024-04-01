@@ -70,7 +70,9 @@ function ChooseClubForm(props) {
             Swal.fire({
               title: "เกิดข้อผิดพลาด",
               text: "กรุณาลองใหม่ภายหลัง",
-              icon: "error"
+              icon: "error",
+              showConfirmButton: false,
+              timer: 1500
             })
           })
         }

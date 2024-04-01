@@ -135,7 +135,7 @@ function Login() {
                             </div>
                             <div className='input-group'>
                                 <p>
-                                    <a href='/' className='anchor-label'>ติดต่อเรา</a>
+                                    <a href='mailto:support.kuebm@gmail.com' className='anchor-label'>ติดต่อเรา</a>
                                     | 
                                     <a href='/forgot_password' className='anchor-label'>ลืมรหัสผ่าน</a>
                                 </p>

@@ -71,7 +71,9 @@ function RequestManage() {
                         Swal.fire({
                             title: "คำขอยืมถูกอนุมัติเรียบร้อยแล้ว",
                             text: "โปรดเตรียมพัสดุให้พร้อมส่งมอบ",
-                            icon: "success"
+                            icon: "success",
+                            showConfirmButton: false,
+                            timer: 1500
                         }).then(function() {
                             window.location.href = '/request'
                         }).catch(error2 => {
