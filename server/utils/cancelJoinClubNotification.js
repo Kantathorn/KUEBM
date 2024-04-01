@@ -40,7 +40,7 @@ const sendEmailNotification = (request,approver,rejecter) => {
         <td>${request.user.student_id}</td>
       </tr>
       <tr>
-        <td>อีเมลล์ผู้ขอเข้าร่วม</td>
+        <td>อีเมลผู้ขอเข้าร่วม</td>
         <td>:</td>
         <td>${request.user.email}</td>
       </tr>
@@ -57,7 +57,7 @@ const sendEmailNotification = (request,approver,rejecter) => {
     </table>
     <p>หมายเลขอ้างอิง:   ${request._id}</p>
     <h2 style="color: #ff5550">คำขอเข้าร่วมชมรมถูกยกเลิกโดย ${rejecter.first_name} ${rejecter.last_name}</h2>
-    <p>*อีเมลล์นี้ถูกสร้างโดยระบบอัตโนมัติ กรุณาอย่าตอบกลับอีเมลล์นี้ (Do not reply this e-mail)</p>
+    <p>*อีเมลนี้ถูกสร้างโดยระบบอัตโนมัติ กรุณาอย่าตอบกลับอีเมลนี้ (Do not reply this e-mail)</p>
     `
   };
 

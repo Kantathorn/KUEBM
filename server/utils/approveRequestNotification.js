@@ -29,12 +29,31 @@ const sendApproveEmailNotification = (request,date,approver) => {
       ],
       subject: 'KUEBM: คำร้องหมายเลข ' + request.request_number + ' ถูกอนุมัติเรียบร้อยแล้ว',
       html: `
-        <p>หมายเลขคำร้อง:   ${request.request_number}</p>
-        <p>ได้รับการอนุมัติจาก: ${approver.first_name}</p>
-        <p>วันที่ยืม:          ${request.collected_date}</p>
-        <p>วันที่คืน:          ${request.returned_date}</p>
-        <p>กรุณารับพัสดุภายในวันที่ ${formatDate(date)} น. ณ ${request.request_to.address}</p>
-        <p>*อีเมลล์นี้ถูกสร้างโดยระบบอัตโนมัติ กรุณาอย่าตอบกลับอีเมลล์นี้ (Do not reply this e-mail)</p>
+        <h2 style="color: #2a9d8f">คำร้องได้รับการอนุมัติ</h2>
+        <table>
+          <tr>
+            <td>หมายเลขคำร้อง</td>
+            <td>:</td>
+            <td>${request.request_number}</td>
+          </tr>
+          <tr>
+            <td>ได้รับการอนุมัติจาก</td>
+            <td>:</td>
+            <td>${approver.first_name}</td>
+          </tr>
+          <tr>
+            <td>วันที่ยืม</td>
+            <td>:</td>
+            <td>${formatDate(request.collected_date)}</td>
+          </tr>
+          <tr>
+            <td>วันที่คืน</td>
+            <td>:</td>
+            <td>${formatDate(request.returned_date)}</td>
+          </tr>
+        </table>
+        <p style="color: #ff5550">กรุณารับพัสดุภายในวันที่ ${formatDate(date)} น. ณ ${request.request_to.address}</p>
+        <p>*อีเมลนี้ถูกสร้างโดยระบบอัตโนมัติ กรุณาอย่าตอบกลับอีเมลนี้ (Do not reply this e-mail)</p>
       `
     };
   

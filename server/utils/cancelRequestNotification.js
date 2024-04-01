@@ -29,10 +29,25 @@ const sendCancelEmailNotification = (request,who,note) => {
       ],
       subject: 'KUEBM: คำร้องหมายเลข ' + request.request_number + ' ถูกยกเลิก',
       html: `
-        <p>หมายเลขคำร้อง:   ${request.request_number}</p>
-        <p>ถูกยกเลิกโดย: ${who.first_name}</p>
-        <p>เนื่องจาก ${note}</p>
-        <p>*อีเมลล์นี้ถูกสร้างโดยระบบอัตโนมัติ กรุณาอย่าตอบกลับอีเมลล์นี้ (Do not reply this e-mail)</p>
+        <h2 style="color: #ff5550">คำร้องถูกยกเลิก</h2>
+        <table>
+          <tr>
+            <td>หมายเลขคำร้อง</td>
+            <td>:</td>
+            <td>${request.request_number}</td>
+          </tr>
+          <tr>
+            <td>ถูกยกเลิกโดย</td>
+            <td>:</td>
+            <td>${who.first_name}</td>
+          </tr>
+          <tr>
+            <td>ถูกยกเลิกโดย</td>
+            <td>:</td>
+            <td>เนื่องจาก ${note}</td>
+          </tr>
+        </table>
+        <p>*อีเมลนี้ถูกสร้างโดยระบบอัตโนมัติ กรุณาอย่าตอบกลับอีเมลนี้ (Do not reply this e-mail)</p>
       `
     };
   

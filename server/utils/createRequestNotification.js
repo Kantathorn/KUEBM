@@ -27,13 +27,40 @@ const sendEmailNotification = (recipientEmail, ownerEmail,detail, number, item) 
     cc: ownerEmail,
     subject: 'KUEBM: คำร้องหมายเลข ' + number + ' ถูกสร้างเรียบร้อยแล้ว',
     html: `
-      <p>หมายเลขคำร้อง:   ${number}</p>
-      <p>รายละเอียดคำร้อง: ${detail.description}</p>
-      <p>วันที่ยืม:          ${formatDate(detail.use_date)}</p>
-      <p>วันที่คืน:          ${formatDate(detail.returned_date)}</p>
-      <p>พัสดุที่ยืม:         ${item.name}</p>
-      <p>จากชมรม:        ${item.owner.name}</p>
-      <p>*อีเมลล์นี้ถูกสร้างโดยระบบอัตโนมัติ กรุณาอย่าตอบกลับอีเมลล์นี้ (Do not reply this e-mail)</p>
+      <h2>รายละเอียดคำร้อง</h2>
+      <table>
+        <tr>
+          <td>หมายเลขคำร้อง</td>
+          <td>:</td>
+          <td>${number}</td>
+        </tr>
+        <tr>
+          <td>รายละเอียดคำร้อง</td>
+          <td>:</td>
+          <td>${detail.description}</td>
+        </tr>
+        <tr>
+          <td>วันที่ยืม</td>
+          <td>:</td>
+          <td>${formatDate(detail.use_date)}</td>
+        </tr>
+        <tr>
+          <td>วันที่คืน</td>
+          <td>:</td>
+          <td>${formatDate(detail.returned_date)}</td>
+        </tr>
+        <tr>
+          <td>พัสดุที่ยืม</td>
+          <td>:</td>
+          <td>${item.name}</td>
+        </tr>
+        <tr>
+          <td>จากชมรม</td>
+          <td>:</td>
+          <td>${item.owner.name}</td>
+        </tr>
+      </table>
+      <p>*อีเมลนี้ถูกสร้างโดยระบบอัตโนมัติ กรุณาอย่าตอบกลับอีเมลนี้ (Do not reply this e-mail)</p>
     `
   };
 

@@ -40,7 +40,7 @@ const sendEmailNotification = (request,approver) => {
         <td>${request.user.student_id}</td>
       </tr>
       <tr>
-        <td>อีเมลล์ผู้ขอเข้าร่วม</td>
+        <td>อีเมลผู้ขอเข้าร่วม</td>
         <td>:</td>
         <td>${request.user.email}</td>
       </tr>
@@ -58,7 +58,7 @@ const sendEmailNotification = (request,approver) => {
     <p>หมายเลขอ้างอิง:   ${request._id}</p>
     <h2 style="color: #2a9d8f">คำขอเข้าร่วมชมรมถูกอนุมัติ</h2>
     <a href="http://localhost:3000/login">เข้าสู้ระบบได้ที่นี่</a>
-    <p>*อีเมลล์นี้ถูกสร้างโดยระบบอัตโนมัติ กรุณาอย่าตอบกลับอีเมลล์นี้ (Do not reply this e-mail)</p>
+    <p>*อีเมลนี้ถูกสร้างโดยระบบอัตโนมัติ กรุณาอย่าตอบกลับอีเมลนี้ (Do not reply this e-mail)</p>
     `
   };
 
